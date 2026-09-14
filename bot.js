@@ -185,10 +185,8 @@ async function runNational69Search() {
        console.error(`[WhatsApp Error]: Failed to send to ${lead.name} ->`, error.message);
     }
 }
-   console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
+console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
-    }
-}
 
 async function fetchRealBusinessLeads(wilaya, activity) {
     return [
