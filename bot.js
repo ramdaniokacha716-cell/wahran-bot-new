@@ -187,6 +187,7 @@ async function runNational69Search() {
 }
    console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
+    }
 }
 
 async function fetchRealBusinessLeads(wilaya, activity) {
