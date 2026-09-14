@@ -157,14 +157,26 @@ function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
 }
 
 // مسار عرض الـ QR في المتصفح
-app.get('/qr', (req, res) => {
+app.get('/qr', async (req, res) => {
     if (latestQR) {
-       res.send(`<h3>Scan this QR code with WhatsApp:</h3><pre>${latestQR}</pre>`);
-    } else {
-       res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait a few seconds and refresh.</h3>');
+       try{
+           const qrcodelib = require('qrcode');
+           const qrImageStream = await qrcodelib.toDataURL(latestQR);
+           res.send('
+                <div style="text-align: center; margin-top: 50px; font-family: Arial;">
+                    <h2>Scan this QR code with WhatsApp:</h2>
+                    <img src="${qrImageStream}" alt="WhatsApp QR Code" style="width: 300px; height: 300px; border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
+                    <p>Open WhatsApp on your phone -> linked Devices -> link a Device</p>
+               </div>
+           ');
+       } catch 'err) {
+           res.send('<h3>Error generating QR image:</h3><ptre>${latestQR}</pre>');
+       }
+    } elese{
+       res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait 5 seconds and refresh the page.</h3>');
     }
 });
-
+               
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🌐 Web server is running on port ${PORT}`);
