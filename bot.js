@@ -14,9 +14,9 @@ app.get('/qr', async (req, res) => {
        const qrImgUrl = await qrcodeImage.toDataURL(latestQR);
        res.send(`
           <div style="text-align: center; margin-top: 50px; font-family: Arial;">
-             <h2>📱 امسح رمز الـ WhatsApp لربط الوكالة فوراً</h2>
-             <img src="${qrImgUrl}" alt="WhatsApp QR Code" style="width: 300px; height: 300px; border: 3px solid #25D366; padding: 10px; border-radius: 15px;" />
-             <p style="font-size: 18px; margin-top: 20px;">افتح واتساب في هاتفك -> الأجهزة المرتبطة -> ربط جهاز، وامسح الكود أعلاه.</p>
+            <h2>📱 امسح رمز الـ WhatsApp لربط الوكالة فوراً</h2>
+            <img src="${qrImgUrl}" alt="WhatsApp QR Code" style="width: 300px; height: 300px; border: 3px solid #25D366; padding: 10px; border-radius: 15px;" />
+            <p style="font-size: 18px; margin-top: 20px;">افتح واتساب في هاتفك -> الأجهزة المرتبطة -> ربط جهاز، وامسح الكود أعلاه.</p>
           </div>
        `);
     } catch (err) {
