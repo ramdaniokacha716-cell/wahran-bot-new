@@ -176,7 +176,7 @@ async function runNational69Search() {
        const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
        const delay = smartRandomDelay();
        console.log(`[Anti-Bot Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
-       await delay;
+       await new Promise(resolve => setTimeout(resolve, delay));
 
        await client.sendMessage(chatId, persuasiveMessage);
        sentCount++;
