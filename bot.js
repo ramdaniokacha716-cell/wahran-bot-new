@@ -1,44 +1,71 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 8080;
-let latestQR = '';
-
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
-// إعداد عميل واتساب مع حفظ الجلسة لكي لا يطلب مسح الرمز كل مرة
+app.use(express.json());
+
+// إعداد عميل واتساب مع حفظ الجلسة لكي لا يطلب مسح الرمز كل مرة وتدشين العمل مباشرة
 const client = new Client({
-    authStrategy: new LocalAuth({
-        dataPath: './wwebjs_auth' // تاكد من ربط هذا المجلد ب Volume في Railway
-    }),
+    authStrategy: new LocalAuth(),
     puppeteer: {
        headless: true,
        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-accelerated-2d-canvas',
-          '--no-first-run',
-          '--no-zygote',
-          '--single-process',
-          '--disable-gpu'
+           '--no-sandbox',
+           '--disable-setuid-sandbox',
+           '--disable-dev-shm-usage',
+           '--disable-accelerated-2d-canvas',
+           '--no-first-run',
+           '--no-zygote',
+           '--single-process',
+           '--disable-gpu'
        ]
     }
 });
 
+let latestQR = '';
+
 client.on('qr', (qr) => {
-latestQR = qr; // حفظ الرمز لعرضه كصورة واضحة في المتصفح
-    console.log('[📱] WhatsApp QR Code Generated! Scan it from your web browser link.');
+    latestQR = qr;
+    console.log('[📱] WhatsApp QR Code Generated! Scan it to start agency operations immediately.');
     qrcode.generate(qr, { small: true });
 });
 
 client.on('ready', () => {
-    console.log('✅ [WhatsApp Connected]: Your phone is successfully linked to DZ AI Agency!');
-// يمكنك تشغيل دورة البحث الآلي هنا فور اتصال الواتساب إذا رغبت
-    // runNational69Search();
+    console.log('✅ [WhatsApp Connected]: Agency is LIVE and starting automatic messaging right away!');
+// البدء فوراً في إرسال الحملات بمجرد الاتصال ومسح الرمز
+    runNational69Search();
+});
+
+// التفاعل التلقائي مع الزبائن وتلقي صور الدفع والمعلومات
+client.on('message', async (msg) => {
+    const text = msg.body.toLowerCase();
+    const contact = await msg.getContact();
+    const chat = await msg.getChat();
+
+// إذا أرسل العميل صورة (نعتبرها وصل الدفع) أو عبارة تخص الدفع
+    if (msg.hasMedia || text.includes('خلصت') || text.includes('وصل') || text.includes('دفعت')) {
+       await chat.sendMessage(`خويا العزيز، ربي يبارك فيك وفي رزقك! 🤝 وصلتنا صوّرتاً أو إشعار الدفع تاعك. راه‌و الفريق التقني يجهز لك موقعك الـ 3D الخرافي 100%.\n\nغير اكملو، يوصلك الرابط النهائي هنا وتهز المفاتيح وتتحكم في كلش بيديك! 🚀`);
+// محاكاة إرسال تنبيه SMS أو إشعار للإدارة (يمكن ربطه ببوابة SMS حقيقية هنا)
+       console.log(`[🚨 SMS ALERT TO ADMIN]: تم استلام إبراء ذمة / دفع من الزبون ${contact.number}. يرجى تفعيل الموقع النهائي فوراً!`);
+    }
+    else if (text.includes('موقع') || text.includes('نموذج') || text.includes('بش شحال')) {
+// الرد باللهجة الوهرانية المؤثرة
+       await chat.sendMessage(`يا خويا ما تخلاتش! المنافسين راهم يديو في الكليان عيني عينك خاطر ما شافوش محلك بـ 3D وبأزرار عصرية تخطف العين. واش رايك نبدلو الحال اليوم؟`);
+    }
 });
 
 client.initialize();
+
+// نقطة نهاية Express لربطها بـ Railway أو سيرفر خارجي
+app.get('/', (req, res) => {
+    res.send('DZ AI Agency Engine is running and active on Railway! 🚀');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🌐 Web server is running on port ${PORT}`);
+});
 
 // خطة تغطية الـ 69 ولاية كاملة
 const all69WilayasSchedule = {
@@ -51,8 +78,8 @@ const all69WilayasSchedule = {
     Friday: { wilayas: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Setif"], activities: ["Tech Startups", "Wedding Halls", "Hotels"] }
 };
 
-// دالة تأخير عشوائي ذكية (لتفادي الحظر تماماً ومحاكاة السرعة البشرية بين 45 إلى 120 ثانية)
-    function smartRandomDelay() {
+// دالة تأخير عشوائي ذكية (لتفادي الحظر ومحاكاة السرعة البشرية بين 45 إلى 120 ثانية)
+function smartRandomDelay() {
     const minSeconds = 45;
     const maxSeconds = 120;
     const randomMs = Math.floor(Math.random() * (maxSeconds - minSeconds + 1) + minSeconds) * 1000;
@@ -112,83 +139,64 @@ async function runNational69Search() {
     let sentCount = 0;
 
     for (const wilaya of plan.wilayas) {
-     for (const activity of plan.activities) {
-       if (!checkWorkingHours()) break;
+      for (const activity of plan.activities) {
+        if (!checkWorkingHours()) break;
 
-       console.log(`📍 Scanning Wilaya: ${wilaya} | Sector: ${activity}`);
-       const realLeads = await fetchRealBusinessLeads(wilaya, activity);
+        console.log(`📍 Scanning Wilaya: ${wilaya} | Sector: ${activity}`);
+        const realLeads = await fetchRealBusinessLeads(wilaya, activity);
 
-       for (const lead of realLeads) {
-          const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
-          const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
-          const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
+        for (const lead of realLeads) {
+           const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
+           const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
+           const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
 
-// محاولة إرسال الرسالة عبر الواتساب مع تطبيق الحماية الزمنية
-          try {
-              const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
+         try {
+            const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
 
-              console.log(`🛡️ [Anti-Ban Protection]: Waiting for random safety delay before sending...`);
-              await smartRandomDelay();
+            const delay = smartRandomDelay();
+            console.log(`🛡️ [Anti-Ban Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
+            await delay;
 
-              await client.sendMessage(chatId, persuasiveMessage);
-              sentCount++;
-              console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
-            } catch (error) {
-              console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
-            }
-          }
+            await client.sendMessage(chatId, persuasiveMessage);
+            sentCount++;
+            console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
+         } catch (error) {
+            console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
+         }
        }
     }
+  }
 
-    console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
+   console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
 }
 
 async function fetchRealBusinessLeads(wilaya, activity) {
     return [
-       {
-          id: Math.floor(Math.random() * 100000),
-          name: `${activity} Al-Baraka ${wilaya}`,
-          activity: activity,
-          phone: "213500000000" // استبدلها لاحقاً برقم حقيقي للاختبار
-       }
+      {
+         id: Math.floor(Math.random() * 100000),
+         name: `${activity} Al-Baraka ${wilaya}`,
+         activity: activity,
+         phone: "213500000000" // استبدلها برقم حقيقي للتجربة
+      }
     ];
 }
 
 function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
-    return `السلام عليكم خويا صاحب ${businessName} (${activity}). تبارك الله النشاط تاعك راهو ماشيي، بصح خليني نحكيهالك صراحة وعينك تشوف: راك تضيع في عشرات الزبائن الكبار كل يوم يلوجو على خدمتك في غوغل وما يصيبوكش، ويرو عند المنافس خاطر ما عندكش واجهة رسمية.
-حنا في وكالة "Webcraft" خدمنالك خصيصاً **موقع إلكتروني عصري بتصاميم وأزرار ثلاثية الأبعاد (3D)** يليق بمقدار نشاطك باش يبان المحل تاعك فخم ومفتوح 24/7!
-🔗 تقدر تدخل تشوف نموذج موقعك الحصري هنا:
+   return `السلام عليكم خويا العزيز، صاحب ${businessName} (${activity}). راك تبان خدام على روحك وتستاهل كل خير، بصح خليني نحكيهالك صراحة وعينك تشوف: راك تضيع في عشرات الزبائن الكبار كل يوم يلوجو على خدمتك في غوغل وما يصيبوكش، ويرو عند المنافس خاطر ما عندكش واجهة رسمية تفهم اللعبة.
+
+حنا في وكالة "Webcraft" خدمنالك خصيصاً **موقع إلكتروني عصري بتصاميم وأزرار ثلاثية الأبعاد (3D)** يخطف الزبون من اللحظة الأولى ويخليه يشري بلا تردد!
+
+🔗 تقدر تدخل تشوف نموذج موقعك التجريبي الحصري هنا وتجرب الأزرار بنفسك:
 ${websiteUrl}
-📱 وهذ هو رمز الـ QR الخاص بموقعة تقدر تطبعو وتحطو في المحل باش الزبون يسكانيه برك يدخل عندك:
+
+📱 وهذ هو رمز الـ QR الخاص بموقعك، تقدر تطبعو وتحطو في المحل ولا في الواجهة باش الزبون يسكانيه برك بـ واتساب يطيح مباشرة عندك:
 ${qrUrl}
-واش رايك نفعلو لك نهائياً اليوم ونجيبولك الزبائن حتى لباب محلك؟`;
+
+بمجرد ما تدفع وتبعث لنا لقطة الشاشة (Capture) تاع الدفع، يوصلنا تنبيه مباشر على هاتفي، ويتفعل لك موقعك الجاهز 100% وتدي التحكم الكامل بيدك في كلش! واش رايك نفعلو لك اليوم ونجيبولك الزبائن حتى لباب محلك؟`;
 }
-
-// --- صفحة الويب لعرض رمز الـ QR كصورة نقية وكاملة ---
-app.get('/run-search', async (req, res) => {
-});
-    if (!latestQR) {
-      return res.send(`
-          <div style="text-align:center; font-family:Tahoma; margin-top:50px;">
-               <h2>🤖 البوت يعمل الآن، جاري توليد رمز الـ QR... يرجى تحديث الصفحة بعد ثوانٍ.</h2>
-          </div>
-       `);
-    }
-    res.send(`
-       <div style="text-align:center; font-family:Tahoma; margin-top:40px;">
-            <h2>📱 امسح رمز الـ QR الخاص بوكالة وهران بسهولة</h2>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodeURIComponent(latestQR)}" alt="QR Code" style="border: 5px solid #007bff; border-radius: 15px; padding: 15px; background: white;" />
-            <p style="margin-top:20px; color:#555; font-size:18px;">وجه كاميرا هاتفك نحو هذه الصورة المباشرة لتتصل الوكالة وتهب لخدمة العملاء فورا!</p>
-       </div>
-    `);
-});
-
-// تشغيل سيرفر الويب على المنفذ المخصص للمنصة
-app.listen(PORT, () => {
-    console.log(`Agency Server is running smoothly on port ${PORT}`);
-    });
 
 module.exports = {
     searchAlgerianLeads: runNational69Search
 };
+
