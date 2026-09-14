@@ -219,3 +219,6 @@ ${qrUrl}
 module.exports = {
     searchAlgerianLeads: runNational69Search
 };
+function smartRandomDelay() {
+    return Math.floor(Math.random() * (45000 - 20000 + 1)) + 20000;
+}
