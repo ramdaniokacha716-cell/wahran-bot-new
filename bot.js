@@ -184,7 +184,7 @@ async function runNational69Search() {
        } catch (error) {
           console.error(`[WhatsApp Error]: Failed to send to ${lead.name} ->`, error.message);
        }
-
+    }
             await client.sendMessage(chatId, persuasiveMessage);
             sentCount++;
             console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
