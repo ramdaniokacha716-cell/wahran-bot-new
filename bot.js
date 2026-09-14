@@ -4,6 +4,26 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 app.use(express.json());
+const qrcodeImage = require('qrcode');
+
+app.get('/qr', async (req, res) => {
+    if (!latestQR) {
+       return res.send('<h3 style="text-align:center; font-family:Arial; margin-top:50px;">⏳ جارٍ توليد الـ QR، يرجى تحديث الصفحة بعد ثوانٍ...</h3>');
+    }
+    try {
+       const qrImgUrl = await qrcodeImage.toDataURL(latestQR);
+       res.send(`
+          <div style="text-align: center; margin-top: 50px; font-family: Arial;">
+             <h2>📱 امسح رمز الـ WhatsApp لربط الوكالة فوراً</h2>
+             <img src="${qrImgUrl}" alt="WhatsApp QR Code" style="width: 300px; height: 300px; border: 3px solid #25D366; padding: 10px; border-radius: 15px;" />
+             <p style="font-size: 18px; margin-top: 20px;">افتح واتساب في هاتفك -> الأجهزة المرتبطة -> ربط جهاز، وامسح الكود أعلاه.</p>
+          </div>
+       `);
+    } catch (err) {
+       res.status(500).send('خطأ في توليد الصورة');
+    }
+});
+
 
 // إعداد عميل واتساب مع حفظ الجلسة لكي لا يطلب مسح الرمز كل مرة وتدشين العمل مباشرة
 const client = new Client({
