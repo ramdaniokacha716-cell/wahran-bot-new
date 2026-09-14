@@ -169,10 +169,10 @@ app.get('/qr', async (req, res) => {
                     <p>Open WhatsApp on your phone -> linked Devices -> link a Device</p>
                </div>
            ');
-       } catch 'err) {
-           res.send('<h3>Error generating QR image:</h3><ptre>${latestQR}</pre>');
+       } catch (err) {
+           res.send('<h3>Error generating QR image:</h3><pre>${latestQR}</pre>');
        }
-    } elese{
+    } else{
        res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait 5 seconds and refresh the page.</h3>');
     }
 });
