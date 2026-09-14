@@ -5,9 +5,10 @@ const qrcode = require('qrcode-terminal');
 
 let latestQR = null;
 
-// إعداد عميل واتساب مع حفظ الجلسة
 const client = new Client({
-    authStrategy: new LocalAuth(),
+    authStrategy: new LocalAuth({
+       dataPath: '.wwebjs_auth'
+    }),
     puppeteer: {
        headless: true,
        args: [
@@ -24,164 +25,119 @@ const client = new Client({
 });
 
 client.on('qr', (qr) => {
-    latestQR = qr;
+latestQR = qr;
     console.log('[📱] WhatsApp QR Code Generated!');
     qrcode.generate(qr, { small: true });
 });
 
 client.on('ready', () => {
-    console.log('✅ [WhatsApp Connected]: Your phone is successfully linked to DZ AI Agency!');
+    console.log('✅ [WhatsApp Connected]: Your agency is successfully linked forever!');
+});
+
+client.on('authenticated', () => {
+    console.log('🔑 [Authentication]: Session saved successfully.');
+});
+
+// الرد الآلي الذكي على العملاء
+client.on('message', async (msg) => {
+    if (msg.from.endsWith('@c.us') && !msg.fromMe) {
+       const text = msg.body.toLowerCase();
+       if (text.includes('سعر') || text.includes('كم') || text.includes('شحال') || text.includes('كيفاش') || text.includes('مهتم')) {
+          const replyText = `فهمتك مليح خويا العزيز، بصح حبيت أقولك بلي المحل أو المؤسسة تاعك تستاهل تكون الواجهة الأولى في منطقتك وما تخليهمش يروحوا للمنافس. استثمار رمزي بـ **10000 دج فقط** رح يرجعلك أضعاف مضاعفة من الزبائن الجدد كل يوم!\n\n💳 لإتمام الطلب وتفعيل موقعك العصري 3D فوراً، أرسل لنا صورة وصل الدفع (Reçu) هنا، وبمجرد إرسالها أبعث لي:\n1. اسم المحل أو المؤسسة بدقة\n2. الشعار (Logo إن وجد)\n3. رقم الهاتف والخدمات لي تحب تظهر في الموقع.\n\nوسنرفعه لك على محركات البحث ويصبح تحت تحكمك 100% بين يديك!`;
+          setTimeout(async () => { await client.sendMessage(msg.from, replyText); }, 3000);
+       }
+       if (text.includes('وصل') || text.includes('دفع') || text.includes('خلصت')) {
+          const successResponse = `بارك الله فيك يا مبدع! تم استلام طلبك وتأكيد الدفع بنجاح 🚀.\nفريق وكالة "Webcraft" راهو يخدم في اللحظة هذه على تفعيل موقعك الخاص وربطه بنظام التحكم الكامل وتجهيز أزرار 3D. سنرسل لك رابط التحكم النهائي خلال دقائق قليلة!`;
+          setTimeout(async () => { await client.sendMessage(msg.from, successResponse); }, 2000);
+       }
+    }
 });
 
 client.initialize();
 
-// خطة تغطية الـ 69 ولاية كاملة
-const all69WilayasSchedule = {
-    Saturday: { wilayas: ["Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Aflou"], activities: ["Startups & Tech", "Hotels & Tourism", "Pharmacies"] },
-    Sunday: { wilayas: ["Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Algiers", "Barika", "El Kantara"], activities: ["Pizzerias & Restaurants", "Tailoring Workshops", "Wedding Halls"] },
-    Monday: { wilayas: ["Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Bir El Ater", "El Aricha"], activities: ["Bazaars", "Women clothing stores", "Real Estate"] },
-    Tuesday: { wilayas: ["Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Ksar El Boukhari", "Ain Oussera"], activities: ["Factories & Industries", "Showrooms", "Supermarkets"] },
-    Wednesday: { wilayas: ["Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Messaad", "Boussaada"], activities: ["Clinics", "Hotels", "Cafes & Decor"] },
-    Thursday: { wilayas: ["Souk Ahras", "Tipasa", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane", "Timimoun", "Bordj Badji Mokhtar", "Ouled Djellal", "Béni Abbès", "In Salah", "In Guezzam", "Touggourt", "Djanet", "El M'Ghair", "El Meniaa", "El Abiodh Sidi Cheikh"], activities: ["Local businesses", "Craftsmen", "Traditional markets"] },
-    Friday: { wilayas: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Setif"], activities: ["Tech Startups", "Wedding Halls", "Hotels"] }
+// الجدول اليومي (20 عميل: 10 لكل تخصص)
+const dailyTargetSchedule = {
+    Saturday: { wilayas: ["Algiers", "Oran", "Constantine"], batch1: { activity: "فنادق", count: 10 }, batch2: { activity: "مؤسسات", count: 10 } },
+    Sunday: { wilayas: ["Blida", "Setif", "Annaba"], batch1: { activity: "شركات", count: 10 }, batch2: { activity: "مصانع", count: 10 } },
+    Monday: { wilayas: ["Mostaganem", "Tlemcen", "Batna"], batch1: { activity: "محلات ملابس رجال", count: 10 }, batch2: { activity: "محلات نساء", count: 10 } },
+    Tuesday: { wilayas: ["Tizi Ouzou", "Bejaia", "Chlef"], batch1: { activity: "صيدليات", count: 10 }, batch2: { activity: "محلات خياطة", count: 10 } },
+    Wednesday: { wilayas: ["Biskra", "Djelfa", "Tiaret"], batch1: { activity: "مقاهي ومطاعم", count: 10 }, batch2: { activity: "قاعات أفراح", count: 10 } },
+    Thursday: { wilayas: ["Skikda", "Mascara", "El Oued"], batch1: { activity: "شركات مقاولات", count: 10 }, batch2: { activity: "متاجر تجارية", count: 10 } },
+    Friday: { wilayas: ["Boumerdes", "Tipasa", "Ghardaia"], batch1: { activity: "وكالات سياحية", count: 10 }, batch2: { activity: "معارض تجارية", count: 10 } }
 };
 
-// دالة تأخير عشوائي ذكية مصححة لتجنب NaN
+let weeklyAcquiredLeads = [];
+
 function smartRandomDelay() {
-    const minSeconds = 45;
-    const maxSeconds = 120;
-    return Math.floor(Math.random() * (maxSeconds - minSeconds + 1) + minSeconds) * 1000;
+    return new Promise(resolve => setTimeout(resolve, (Math.floor(Math.random() * (120 - 45 + 1) + 45)) * 1000));
 }
 
-// دالة التحقق من أوقات العمل
 function checkWorkingHours() {
     const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    const currentTimeVal = currentHour * 60 + currentMinute;
-
-    const morningStart = 9 * 60 + 30; // 09:30
-    const morningEnd = 13 * 60; // 13:00
-    const eveningStart = 14 * 60; // 14:00
-    const nightEnd = 24 * 60; // 00:00
-
-    return (currentTimeVal >= morningStart && currentTimeVal <= morningEnd) ||
-          (currentTimeVal >= eveningStart && currentTimeVal < nightEnd);
+    const timeVal = now.getHours() * 60 + now.getMinutes();
+    return (timeVal >= 570 && timeVal <= 780) || (timeVal >= 840 && timeVal < 1440);
 }
 
-// دالة صيانة الذاكرة الليلية
-function runNightMaintenanceRoutine() {
-    console.log(`🌙 [Night Maintenance]: Purging uninterested leads, optimizing RAM, and cleaning database...`);
-    if (global.gc) {
-       global.gc();
-       console.log(`🧹 [RAM Cleaned]: Garbage collector executed successfully.`);
-    }
-}
-
-// الوظيفة الرئيسية: جلب العملاء، إنشاء مواقع 3D، وإرسال الرسائل عبر واتساب تلقائياً
-async function runNational69Search() {
+// مسح الذاكرة أسبوعياً يوم الجمعة 00:00 ليلاً
+setInterval(() => {
     const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    const currentTimeVal = currentHour * 60 + currentMinute;
-    const morningStart = 9 * 60 + 30;
-
-    if (currentTimeVal < morningStart) {
-       runNightMaintenanceRoutine();
-       return { status: "Night maintenance mode active", sentMessages: 0 };
+    if (now.getDay() === 5 && now.getHours() === 0 && now.getMinutes() === 0) {
+       weeklyAcquiredLeads = [];
+       if (global.gc) global.gc();
     }
+}, 60000);
 
-    if (!checkWorkingHours()) {
-       console.log(`⏳ [Paused]: Shift break (13:00 - 14:00).`);
-       return { status: "Paused for shift break", sentMessages: 0 };
-    }
-
+async function runDailyAgencyOutreach() {
+    const now = new Date();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const todayName = days[now.getDay()];
-    const plan = all69WilayasSchedule[todayName];
+    const dayPlan = dailyTargetSchedule[days[now.getDay()]];
+    if (!dayPlan || !checkWorkingHours()) return;
 
-    if (!plan) return { status: "Rest day", sentMessages: 0 };
-
-    console.log(`🚀 [DZ Autonomous Agency Engine]: Starting WhatsApp outreach for [${todayName}]...`);
     let sentCount = 0;
+    for (const batch of [dayPlan.batch1, dayPlan.batch2]) {
+       for (let i = 1; i <= batch.count; i++) {
+          if (!checkWorkingHours()) break;
+          const wilaya = dayPlan.wilayas[Math.floor(Math.random() * dayPlan.wilayas.length)];
+          const lead = {
+            id: Math.floor(Math.random() * 900000) + 100000,
+            name: `${batch.activity} ${wilaya} ${i}`,
+            activity: batch.activity,
+            wilaya: wilaya,
+            phone: `2135${Math.floor(Math.random() * 90000000 + 10000000)}`
+          };
 
-    for (const wilaya of plan.wilayas) {
-     for (const activity of plan.activities) {
-       if (!checkWorkingHours()) break;
+          if (weeklyAcquiredLeads.includes(lead.phone)) continue;
 
-       console.log(`📍 Scanning Wilaya: ${wilaya} | Sector: ${activity}`);
-       const realLeads = await fetchRealBusinessLeads(wilaya, activity);
-
-       for (const lead of realLeads) {
-          const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
-          const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
-          const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
+          const url = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
+          const qr = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
+          const msg = `السلام عليكم خويا صاحب ${lead.name} (${lead.activity}). تبارك الله النشاط تاعك في ${lead.wilaya} راهو ماشيي، بصح خليني نحكيهالك صراحة وعينك تشوف: راك تضيع في عشرات الزبائن الكبار كل يوم يلوجو على خدمتك في غوغل وما يصيبوكش، ويرو عند المنافس خاطر ما عندكش واجهة رسمية.\n\nحنا في وكالة "Webcraft" خدمنالك خصيصاً **موقع إلكتروني عصري بتصاميم وأزرار ثلاثية الأبعاد (3D)** يليق بمقدار نشاطك باش يبان المحل تاعك فخم ومفتوح 24/7!\n\n🔗 تقدر تدخل تشوف نموذج موقعك الحصري هنا:\n${url}\n\n📱 وهذ هو رمز الـ QR الخاص بموقعك تقدر تطبعو وتحطو في المحل باش الزبون يسكانيه برك يدخل عندك:\n${qr}\n\nواش رايك نفعلو لك نهائياً اليوم بـ 10000 دج ونجيبولك الزبائن حتى لباب محلك؟`;
 
           try {
-            const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
-
-            const delayMs = smartRandomDelay();
-            console.log(`🛡️ [Anti-Ban Protection]: Waiting ${Math.round(delayMs / 1000)} seconds before sending to protect account...`);
-            await new Promise(resolve => setTimeout(resolve, delayMs));
-
-            await client.sendMessage(chatId, persuasiveMessage);
+            await smartRandomDelay();
+            await client.sendMessage(`${lead.phone}@c.us`, msg);
             sentCount++;
-            console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
-          } catch (error) {
-            console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
+            weeklyAcquiredLeads.push(lead.phone);
+          } catch (err) {
+            console.error(err.message);
           }
-        }
-      }
+       }
     }
-
-    console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
 }
 
-// دالة جلب الأعمال والعملاء المستهدفين تلقائياً
-async function fetchRealBusinessLeads(wilaya, activity) {
-    console.log(`[Webcraft Engine]: Fetching verified business leads for ${activity} in ${wilaya}...`);
-    return [
-       {
-          id: Math.floor(Math.random() * 1000000),
-          name: `${activity} ${wilaya} Pro`,
-          activity: activity,
-          phone: "213XXXXXXXXX"
-       }
-    ];
-}
-
-// النص التسويقي بلغة آمنة تماماً ضد مشاكل الترميز
-function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
-    return `Salam 3likoum khoya l3ziz, saheb ${businessName} (${activity}). Rak tdaya3 f'lzbayan kol yom 3la jal ma 3andkch wajha rasmya f'google, o'l'3amila raho yrouho 3nd l'competitors dyalk!\n\nNdirlek site web 3asri b'design 3d w'buttons interactive mkhosos ghab l'mahal dyalk men "Webcraft":\n\n🔗 Chof l'demo dyalk w'experimente l'buttons men hna:\n${websiteUrl}\n\n📱 QR Code dyak raho wajed, t9der ttbou3o o't7to f'l'mahal bach l'client yscanih b'whatsapp direct:\n${qrUrl}\n\nSite dyak yahdem 100% o'tkmel kolchi b'ydk! Wach rayek nlaunchiwlek l'youm o'njibolek l'client l'bab mahalek?`;
-}
-
-// مسار عرض الـ QR في المتصفح
 app.get('/qr', async (req, res) => {
     if (latestQR) {
-       try{
-           const qrcodelib = require('qrcode');
-           const qrImageStream = await qrcodelib.toDataURL(latestQR);
-           res.send('
-                <div style="text-align: center; margin-top: 50px; font-family: Arial;">
-                    <h2>Scan this QR code with WhatsApp:</h2>
-                    <img src="${qrImageStream}" alt="WhatsApp QR Code" style="width: 300px; height: 300px; border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
-                    <p>Open WhatsApp on your phone -> linked Devices -> link a Device</p>
-               </div>
-           ');
-       } catch (err) {
-           res.send('<h3>Error generating QR image:</h3><pre>${latestQR}</pre>');
+       try {
+          const qrcodeLib = require('qrcode');
+          const stream = await qrcodeLib.toDataURL(latestQR);
+          res.send(`<div style="text-align: center; margin-top: 50px;"><img src="${stream}" width="300" height="300"/><p>Scan with WhatsApp (Linked Devices)</p></div>`);
+       } catch (e) {
+          res.send(latestQR);
        }
-    } else{
-       res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait 5 seconds and refresh the page.</h3>');
+    } else {
+       res.send('<h3>WhatsApp is already connected forever or QR is generating...</h3>');
     }
 });
-               
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🌐 Web server is running on port ${PORT}`);
-});
 
-module.exports = {
-    searchAlgerianLeads: runNational69Search
-};
+app.listen(process.env.PORT || 3000);
+module.exports = { searchAlgerianLeads: runDailyAgencyOutreach };
