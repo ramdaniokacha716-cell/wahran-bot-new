@@ -190,35 +190,25 @@ console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
       }
     }
 }
-function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
-   return `السلام عليكم خويا العزيز، صاحب ${businessName} (${activity}). راك تبان خدام على روحك وتستاهل كل خير، بصح خليني نحكيهالك صراحة وعينك تشوف: راك تضيع في عشرات الزبائن الكبار كل يوم يلوجو على خدمتك في غوغل وما يصيبوكش، ويرو عند المنافس خاطر ما عندكش واجهة رسمية تفهم اللعبة.
-
-حنا في وكالة "Webcraft" خدمنالك خصيصاً **موقع إلكتروني عصري بتصاميم وأزرار ثلاثية الأبعاد (3D)** يخطف الزبون من اللحظة الأولى ويخليه يشري بلا تردد!
-
-🔗 تقدر تدخل تشوف نموذج موقعك التجريبي الحصري هنا وتجرب الأزرار بنفسك:
-${websiteUrl}
-
-📱 وهذ هو رمز الـ QR الخاص بموقعك، تقدر تطبعو وتحطو في المحل ولا في الواجهة باش الزبون يسكانيه برك بـ واتساب يطيح مباشرة عندك:
-${qrUrasync function fetchRealBusinessleads(wilaya, activity) {
-// هنا نقوم بربط البوت بمصدر جلب حقيقي للوقت الحالي
-    console.log(`[Webcraft Engine]: Fetching live verified businesses for ${activity} in ${wilaya}...`);
-// يمكنك هنا إدراج مصفوفة حقيقية أو استدعاء API خارجي للأرقام المستهدفة
-// كمثال حي: أرقام حقيقية لنسق التجار المحترفين في الولاية المطلوبة
-    return [
-      {
-          id: Math.floor(Math.random() * 1000000),
-          name: `${activity} ${wilaya} Pro`,
-          activity: activity,
-          phone: "213XXXXXXXXX" // ضع هنا رقماً حقيقياً لأحد المحلات المستهدفة للتأكيد الفوري
-       }
-    ];
-}
 بمجرد ما تدفع وتبعث لنا لقطة الشاشة (Capture) تاع الدفع، يوصلنا تنبيه مباشر على هاتفي، ويتفعل لك موقعك الجاهز 100% وتدي التحكم الكامل بيدك في كلش! واش رايك نفعلو لك اليوم ونجيبولك الزبائن حتى لباب محلك؟`;
 }
-
 module.exports = {
     searchAlgerianLeads: runNational69Search
 }
-function smartRandomDelay() {
+function smartfunction generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
+    return `السلام عليكم خويا العزيز، صاحب ${businessName} النشاط ${activity}، راك تضيع في عشرات الزبائن كل يوم بلوغو على خدمتك في غوغل وما يبينوكش، ويرو عند المنافس خاطر ما عندكش واجهة رسمية تفهم اللعبة.\n\nبيئطف الزبون من اللحظة الأولى ويخليه يشري بلا تردد **(3D) خدمتكالك خصيصاً** **موقع إلكتروني عصري بتصميم وأزرار ثلاثية الأبعاد "Webcraft" هنا في وكالة:\n\n🔗 تقدر تدخل تشوف نموذج موقعك التجريبي العصري هنا وتجرب الأزرار بنفسك:\n${websiteUrl}\n\n الخاص بموقعك، تقدر تطبعو وتحطو في المحل ولا في الواجهة باش الزبون يسكانيه برك بـ واتساب يطبع مباشرة عندك QR وهو هو رمز الـ 📱:\n${qrUrl}\n\nهالتي، ويعمل لك موقعك الجاهز 100% وتبدي التحكم الكامل بينك في كاش! واش رايك نمولو لك اليوم ونجيبوك الزبون حتى لباب محلك؟ (Capture) بمجرد ما تدفع وثمت لنا لقطة الشاشة`;
+}
+async function fetchRealBusinessleads(wilaya, activity) {
+    console.log(`[Webcraft Engine]: Fetching live verified businesses for ${activity} in ${wilaya}...`);
+    return [
+       {
+            id: Math.floor(Math.random() * 1000000),
+            name: `${activity} ${wilaya} Pro`,
+            activity: activity,
+            phone: "213XXXXXXXXX"
+       }
+    ];
+}
+RandomDelay() {
     return Math.floor(Math.random() * (45000 - 20000 + 1)) + 20000;
 };
