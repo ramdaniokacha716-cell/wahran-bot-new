@@ -5,7 +5,7 @@ const qrcode = require('qrcode-terminal');
 
 let latestQR = null;
 
-// إعداد عميل واتساب مع حفظ الجلسة لكي لا يطلب مسح الرمز كل مرة
+// إعداد عميل واتساب مع حفظ الجلسة
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
@@ -46,7 +46,7 @@ const all69WilayasSchedule = {
     Friday: { wilayas: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Setif"], activities: ["Tech Startups", "Wedding Halls", "Hotels"] }
 };
 
-// دالة تأخير عشوائي ذكية مصححة ترجع عدد المليثانية مباشرة لتفادي خطأ NaN
+// دالة تأخير عشوائي ذكية مصححة لتجنب NaN
 function smartRandomDelay() {
     const minSeconds = 45;
     const maxSeconds = 120;
@@ -78,7 +78,7 @@ function runNightMaintenanceRoutine() {
     }
 }
 
-// الوظيفة الرئيسية: جلب العملاء، إنشاء مواقع 3D، وإرسال الرسائل عبر واتساب بفاصل زمني آمن
+// الوظيفة الرئيسية: جلب العملاء، إنشاء مواقع 3D، وإرسال الرسائل عبر واتساب تلقائياً
 async function runNational69Search() {
     const now = new Date();
     const currentHour = now.getHours();
@@ -113,32 +113,32 @@ async function runNational69Search() {
        const realLeads = await fetchRealBusinessLeads(wilaya, activity);
 
        for (const lead of realLeads) {
-            const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
-            const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
-            const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
+          const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
+          const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
+          const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
 
-            try {
-              const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
+          try {
+            const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
 
-              const delayMs = smartRandomDelay();
-              console.log(`🛡️ [Anti-Ban Protection]: Waiting ${Math.round(delayMs / 1000)} seconds before sending to protect account...`);
-              await new Promise(resolve => setTimeout(resolve, delayMs));
+            const delayMs = smartRandomDelay();
+            console.log(`🛡️ [Anti-Ban Protection]: Waiting ${Math.round(delayMs / 1000)} seconds before sending to protect account...`);
+            await new Promise(resolve => setTimeout(resolve, delayMs));
 
-              await client.sendMessage(chatId, persuasiveMessage);
-              sentCount++;
-              console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
-            } catch (error) {
-              console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
-            }
+            await client.sendMessage(chatId, persuasiveMessage);
+            sentCount++;
+            console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
+          } catch (error) {
+            console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
           }
-       }
+        }
+      }
     }
 
     console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
 }
 
-// دالة جلب العملاء الحقيقيين (مجهزة ومربطة بمحركات البحث والبيانات المحلية)
+// دالة جلب الأعمال والعملاء المستهدفين تلقائياً
 async function fetchRealBusinessLeads(wilaya, activity) {
     console.log(`[Webcraft Engine]: Fetching verified business leads for ${activity} in ${wilaya}...`);
     return [
@@ -146,28 +146,30 @@ async function fetchRealBusinessLeads(wilaya, activity) {
           id: Math.floor(Math.random() * 1000000),
           name: `${activity} ${wilaya} Pro`,
           activity: activity,
-          phone: "213XXXXXXXXX" // استبدلها بالرقم الحقيقي المستهدف للعميل
+          phone: "213XXXXXXXXX"
        }
     ];
 }
 
-// النص بالتصميم الوهراني النظيف الآمن تماماً من أخطاء الرموز
+// النص التسويقي بلغة آمنة تماماً ضد مشاكل الترميز
 function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
     return `Salam 3likoum khoya l3ziz, saheb ${businessName} (${activity}). Rak tdaya3 f'lzbayan kol yom 3la jal ma 3andkch wajha rasmya f'google, o'l'3amila raho yrouho 3nd l'competitors dyalk!\n\nNdirlek site web 3asri b'design 3d w'buttons interactive mkhosos ghab l'mahal dyalk men "Webcraft":\n\n🔗 Chof l'demo dyalk w'experimente l'buttons men hna:\n${websiteUrl}\n\n📱 QR Code dyak raho wajed, t9der ttbou3o o't7to f'l'mahal bach l'client yscanih b'whatsapp direct:\n${qrUrl}\n\nSite dyak yahdem 100% o'tkmel kolchi b'ydk! Wach rayek nlaunchiwlek l'youm o'njibolek l'client l'bab mahalek?`;
 }
 
-module.exports = {
-    searchAlgerianLeads: runNational69Search
-};
-app.get('/qr", (req, res) => {
+// مسار عرض الـ QR في المتصفح
+app.get('/qr', (req, res) => {
     if (latestQR) {
-        res.send('<h3>Scan this QR code with WhatsApp:</h3><pre>${latestQR}</pre>');
-    } elese {
-        res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait a few seconds and refresh.</h3>');
+       res.send(`<h3>Scan this QR code with WhatsApp:</h3><pre>${latestQR}</pre>`);
+    } else {
+       res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait a few seconds and refresh.</h3>');
     }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(' web server is running on port ${PORT}');
+    console.log(`🌐 Web server is running on port ${PORT}`);
 });
+
+module.exports = {
+    searchAlgerianLeads: runNational69Search
+};
