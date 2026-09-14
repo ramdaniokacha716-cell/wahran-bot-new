@@ -1,5 +1,5 @@
 {
-    "name": "dz-autonomous-agency",
+    "name": "wahran-agency-bot",
     "version": "1.0.0",
     "description": "Fully automated AI web agency engine for Algerian market",
     "main": "bot.js",
