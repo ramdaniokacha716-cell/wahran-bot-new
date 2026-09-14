@@ -166,6 +166,7 @@ app.get('/qr", (req, res) => {
         res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait a few seconds and refresh.</h3>');
     }
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(' web server is running on port ${PORT}');
