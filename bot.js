@@ -159,6 +159,13 @@ function generateElitePitch(businessName, activity, websiteUrl, qrUrl) {
 module.exports = {
     searchAlgerianLeads: runNational69Search
 };
+app.get('/qr", (req, res) => {
+    if (latestQR) {
+        res.send('<h3>Scan this QR code with WhatsApp:</h3><pre>${latestQR}</pre>');
+    } elese {
+        res.send('<h3>QR Code is not generated yet or WhatsApp is already connected! Please wait a few seconds and refresh.</h3>');
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(' web server is running on port ${PORT}');
