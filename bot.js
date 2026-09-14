@@ -168,33 +168,23 @@ async function runNational69Search() {
     for (const lead of realLeads) {
        const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
        const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
-// دمج رابط الموقع ورابط الـ QR في الرسالة لجعلها جذابة واحترافية
+
        const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl) +
           `\n\n🔗 رابط QR Code الخاص بمحلك لعرضه أو طباعته:\n${clientQrCodeUrl}`;
 
-       try {
-          const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
-          const delay = smartRandomDelay();
-          console.log(`[Anti-Bot Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
-          await delay;
+    try {
+       const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
+       const delay = smartRandomDelay();
+       console.log(`[Anti-Bot Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
+       await delay;
 
-// إرسال الرسالة الكاملة والجذابة بأمان تام
-          await client.sendMessage(chatId, persuasiveMessage);
-          console.log(`[Success]: Message sent successfully to ${lead.name}`);
-       } catch (error) {
-          console.error(`[WhatsApp Error]: Failed to send to ${lead.name} ->`, error.message);
-       }
+       await client.sendMessage(chatId, persuasiveMessage);
+       sentCount++;
+       console.log(`[Success]: Message sent successfully to ${lead.name} (${wilaya})`);
+    } catch (error) {
+       console.error(`[WhatsApp Error]: Failed to send to ${lead.name} ->`, error.message);
     }
-            await client.sendMessage(chatId, persuasiveMessage);
-            sentCount++;
-            console.log(`✅ [WhatsApp Sent]: Successfully messaged ${lead.name} in ${wilaya}`);
-         } catch (error) {
-            console.error(`❌ [WhatsApp Error]: Failed to send to ${lead.name}:`, error.message);
-         }
-       }
-    }
-  }
-
+}
    console.log(`🎉 Completed batch. Sent ${sentCount} secure WhatsApp pitches.`);
     return { status: "Completed", sentMessages: sentCount };
 }
