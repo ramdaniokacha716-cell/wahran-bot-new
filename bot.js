@@ -165,17 +165,25 @@ async function runNational69Search() {
         console.log(`📍 Scanning Wilaya: ${wilaya} | Sector: ${activity}`);
         const realLeads = await fetchRealBusinessLeads(wilaya, activity);
 
-        for (const lead of realLeads) {
-           const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
-           const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
-           const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl, clientQrCodeUrl);
+    for (const lead of realLeads) {
+       const clientWebsiteUrl = `https://webcraft-dz.github.io/client-${lead.id}-3d`;
+       const clientQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(clientWebsiteUrl)}`;
+// دمج رابط الموقع ورابط الـ QR في الرسالة لجعلها جذابة واحترافية
+       const persuasiveMessage = generateElitePitch(lead.name, lead.activity, clientWebsiteUrl) +
+          `\n\n🔗 رابط QR Code الخاص بمحلك لعرضه أو طباعته:\n${clientQrCodeUrl}`;
 
-         try {
-            const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
+       try {
+          const chatId = `${lead.phone.replace(/[^0-9]/g, '')}@c.us`;
+          const delay = smartRandomDelay();
+          console.log(`[Anti-Bot Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
+          await delay;
 
-            const delay = smartRandomDelay();
-            console.log(`🛡️ [Anti-Ban Protection]: Waiting ${Math.round(delay / 1000)} seconds before sending to protect account...`);
-            await delay;
+// إرسال الرسالة الكاملة والجذابة بأمان تام
+          await client.sendMessage(chatId, persuasiveMessage);
+          console.log(`[Success]: Message sent successfully to ${lead.name}`);
+       } catch (error) {
+          console.error(`[WhatsApp Error]: Failed to send to ${lead.name} ->`, error.message);
+       }
 
             await client.sendMessage(chatId, persuasiveMessage);
             sentCount++;
