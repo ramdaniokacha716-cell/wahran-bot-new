@@ -147,7 +147,7 @@ const targetLeadsToday = [
     { name: "Pharmacie Mechiche Ahcene", phone: "+21326121720", type: "صيدلية", wilaya: "تيزي وزو" },
     { name: "Pharmacie RABIA Lyes", phone: "+21326111263", type: "صيدلية", wilaya: "تيزي وزو" },
     { name: "Pharmacie Chifa (ALIOUANE Eps MENAA)", phone: "+213698858892", type: "صيدلية", wilaya: "تيزي وزو" },
-    { name: "Pharmacie TABOUDJEMATHS", phone: "+213774872910", type: "صيدلية", wilaya: "تيزي وزو" },
+    { name: "Pharmacie TABOUDJEMATHS", phone: "+21555128053", type: "صيدلية", wilaya: "تيزي وزو" },
 
 // صيدليات بجاية
     { name: "Pharmacie Ainennas Habiba Ep Amedjkouh", phone: "+21334180036", type: "صيدلية", wilaya: "بجاية" },
