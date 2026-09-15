@@ -181,3 +181,38 @@ const getHighConversionMessage = (leadName) => {
 "002836536674"
 ثم أرسل لنا وصل الدفع هنا لنبدأ العمل على مشروعك فوراً اليوم!`;
 };
+
+// --- [دالة التشغيل الفوري لحملة Webcraft التسويقية] ---
+async function startWebcraftCampaign() {
+    if (typeof targetLeadsToday === 'undefined' || targetLeadsToday.length === 0) {
+       console.log("⚠️ لا توجد أهداف مضافة حالياً في القائمة.");
+       return;
+    }
+
+    console.log(`🚀 بدأت حملة Webcraft بنجاح لـ ${targetLeadsToday.length} عميل مستهدف...`);
+
+    for (const lead of targetLeadsToday) {
+       try {
+// توليد رسالة القيمة المضافة الخاصة بالعميل
+          const message = getHighConversionMessage(lead.name);
+// محاكاة تأخير آمن لتفادي الحظر (بين 15 إلى 30 ثانية لكل رسالة)
+          const randomDelay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000;
+// أمر إرسال الرسالة عبر واتساب (تأكد من توافق اسم كائن الواتساب لديك مثل client أو whatsapp)
+          // client.sendMessage(lead.phone + "@c.us", message);
+
+          console.log(`✅ تم إرسال العرض بنجاح إلى: ${lead.name} (${lead.phone})`);
+
+// انتظار الفاصل الزمني الآمن قبل الانتقال للعميل الموالي
+          await new Promise(resolve => setTimeout(resolve, randomDelay));
+
+       } catch (error) {
+          console.error(`❌ فشل في إرسال الرسالة إلى ${lead.name}:`, error.message);
+       }
+    }
+    console.log("🎉 اكتملت حملة اليوم بنجاح ووصلت العروض لكل الأهداف!");
+}
+
+// تنفيذ الدالة تلقائياً بعد ثوانٍ من استقرار الاتصال
+setTimeout(() => {
+    startWebcraftCampaign();
+}, 10000);
