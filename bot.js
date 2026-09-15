@@ -281,9 +281,9 @@ function initDailyScheduler() {
 
        // 1. الفترة الصباحية: تبدأ من 10:00 إلى 15:00
        if (hour >= 10 && hour < 15) {
-           if (hour === 10 && minute === 0) {
-              console.log("🕒 بداية الفترة الصباحية (10:00 صباحاً). انطلاق الحملة...");
-              startWebcraftCampaign();
+           if (hour === 17 && minute === 39) {
+              console.log("🕒  الفترة المسائية (17:00 صباحاً). انطلاق الحملة...");
+              startWebcraftCampaign(); //
            }
        }
        // 2. فترة الاستراحة الصباحية: من 15:00 إلى 15:30
