@@ -57,7 +57,7 @@ const weeklyScheduleLeads = {
              { name: "Atelier de couture rose et soie", phone: "0541367733", wilaya: "alger" }, { name: "Atelier Harmonie constantine", phone: "0669594548", wilaya: "costontine" },
              { name: "Cozy collection atelier", phone: "0555145183", wilaya: "alger" }, { name: "Ahlami h couture", phone: "0558461769", wilaya: "costontine" },
              { name: "Atelier de Confection RH", phone: "0551057286", wilaya: "alger" }, { name: "Liliane couture", phone: "0793517595", wilaya: "costontine" },
-             { name: "Atelier Couture & Création "Radia", phone: "0552942985", wilaya: "alger" }, { name: "ATELIER LAHNA", phone: "0542739950", wilaya: "tizi ouzou" },
+             { name: "Atelier Couture & Création Radia", phone: "0552942985", wilaya: "alger" }, { name: "ATELIER LAHNA", phone: "0542739950", wilaya: "tizi ouzou" },
              { name: "SB haute couture", phone: "0556487626", wilaya: "alger" }, { name: "Tailleur de mon temps", phone: "0662176242", wilaya: "tizi ouzou" },
              { name: "Atelier de couture Oran - ورشة الخياطة في وهران", phone: "0779561998", wilaya: "oran" }, { name: "Dahlab Création", phone: "0541099889", wilaya: "tizi ouzou" },
              { name: "Haute Couture Traditionnelle Tizefri", phone: "0557762759", wilaya: "oran" }, { name: "Atelier de couture", phone: "0552253422", wilaya: "tizi ouzou" },
