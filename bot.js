@@ -183,16 +183,16 @@ const getHighConversionMessage = (leadName) => {
 
 💳 **طريقة تفعيل الحجز الفوري:**
 قم بتحويل المبلغ عبر الـ RIP الخاص بالوكالة:
-` + "002836536674" + `
+"002836536674"
 ثم أرسل لنا وصل الدفع (صورة) هنا لنبدأ فوراً!`;
 };
 
-// نظام الرد الآلي وتأكيد الدفع وتوليد الموقع
+نظام الرد الآلي وتأكيد الدفع وتوليد الموقع
 client.on('message', async (msg) => {
     if (msg.hasMedia) {
        try {
 Puppeteerمنح المتصفح ثانيتين لاستقرار السياق وتجنب انهيار //
-           await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 2000));
           const media = await msg.downloadMedia();
           if (media && media.mimetype && media.mimetype.startsWith('image/')) {
             const onboardingResponse = `✅ **تم تأكيد استلام وصل الدفع بنجاح يا غالي!**
