@@ -53,18 +53,6 @@ client.on('message', async (msg) => {
     }
 });
 
-client.initialize();
-
-// الجدول اليومي (20 عميل: 10 لكل تخصص)
-const dailyTargetSchedule = {
-    Saturday: { wilayas: ["Algiers", "Oran", "Constantine"], batch1: { activity: "فنادق", count: 10 }, batch2: { activity: "مؤسسات", count: 10 } },
-    Sunday: { wilayas: ["Blida", "Setif", "Annaba"], batch1: { activity: "شركات", count: 10 }, batch2: { activity: "مصانع", count: 10 } },
-    Monday: { wilayas: ["Mostaganem", "Tlemcen", "Batna"], batch1: { activity: "محلات ملابس رجال", count: 10 }, batch2: { activity: "محلات نساء", count: 10 } },
-    Wednesday: { wilayas: ["Biskra", "Djelfa", "Tiaret"], batch1: { activity: "مقاهي ومطاعم", count: 10 }, batch2: { activity: "قاعات أفراح", count: 10 } },
-    Thursday: { wilayas: ["Skikda", "Mascara", "El Oued"], batch1: { activity: "شركات مقاولات", count: 10 }, batch2: { activity: "متاجر تجارية", count: 10 } },
-    Friday: { wilayas: ["Boumerdes", "Tipasa", "Ghardaia"], batch1: { activity: "وكالات سياحية", count: 10 }, batch2: { activity: "معارض تجارية", count: 10 } }
-};
-
 let weeklyAcquiredLeads = [];
 
 function smartRandomDelay() {
@@ -140,79 +128,3 @@ app.get('/qr', async (req, res) => {
 
 app.listen(process.env.PORT || 3000);
 module.exports = { searchAlgerianLeads: runDailyAgencyOutreach };
-
-// --- [القائمة الكاملة لأهداف صيدليات اليوم: تيزي وزو، بجاية، والشلف + رسالة القيمة المضافة] ---
-const targetLeadsToday = [
-// صيدليات تيزي وزو
-    { name: "Pharmacie Mechiche Ahcene", phone: "+21326121720", type: "صيدلية", wilaya: "تيزي وزو" },
-    { name: "Pharmacie RABIA Lyes", phone: "+21326111263", type: "صيدلية", wilaya: "تيزي وزو" },
-    { name: "Pharmacie Chifa (ALIOUANE Eps MENAA)", phone: "+213698858892", type: "صيدلية", wilaya: "تيزي وزو" },
-    { name: "Pharmacie TABOUDJEMATHS", phone: "+21555128053", type: "صيدلية", wilaya: "تيزي وزو" },
-
-// صيدليات بجاية
-    { name: "Pharmacie Ainennas Habiba Ep Amedjkouh", phone: "+21334180036", type: "صيدلية", wilaya: "بجاية" },
-    { name: "Pharmacie Mokrani Epse Temzi", phone: "+21334169341", type: "صيدلية", wilaya: "بجاية" },
-    { name: "Pharmacie Les Trois Horloges", phone: "+213556232220", type: "صيدلية", wilaya: "بجاية" },
-
-// صيدليات الشلف
-    { name: "PHARMACIE CHEBRI", phone: "+213770334575", type: "صيدلية", wilaya: "الشلف" },
-    { name: "Pharmacie ABBOURA", phone: "+21327779129", type: "صيدلية", wilaya: "الشلف" },
-    { name: "Ait Hamoudha Samia", phone: "+213561077352", type: "صيدلية", wilaya: "الشلف" }
-];
-
-// --- [نص الرسالة التسويقية المحملة بالقيمة المضاعفة لتجاوز مقاومة السعر] ---
-const getHighConversionMessage = (leadName) => {
-    return `مرحباً بك يا سيف / دكتور (${leadName})، معك خيّر الدين ممثل وكالة Webcraft الرقمية. 🌟
-
-لاحظنا أن مؤسستكم الموقرة غير متواجدة على شبكة الإنترنت، بينما يبحث آلاف الزبائن يومياً عبر Google عن خدماتكم في ولايتكم ولا يجدونكم، بل يذهبون للمنافسين!
-
-💡 **عرض خاص ومحدود لـ 24 ساعة القادمة:**
-نحن لا نبيع لك مجرد "موقع إلكتروني"، بل نبني لك **نظام جلب زبائن متكامل** بقيمة حقيقية تتجاوز 45,000 دج، يتضمن:
-1️⃣ **تصميم موقع احترافي متجاوب 3D** يظهر فيه اسم صدليتكم بأرقى حلة.
-2️⃣ **ربط مباشر بزر الواتساب** لكي يحجز الزبائن الأدوية أو الاستشارات مباشرة من بيوتهم.
-3️⃣ **تهيئة كاملة للظهور في محركات البحث (Google Maps SEO)** لكي تظهر في المرتبة الأولى بالمنطقة.
-4️⃣ **هدية مجانية:** دليل إدارة الحملات الرقمية للأنشطة الصحية محلياً.
-
-🔥 **كل هذا بمبلغ استثنائي رمزي لمرة واحدة: 10,000 دج فقط!**
-*(أي أن جلب زبون واحد إضافي بفضل الموقع سيغطي تكلفة الموقع بالكامل خلال أول أسبوع).*
-
-💳 **طريقة التأكيد الفوري للحجز:**
-قم بتحويل المبلغ عبر الـ RIP الخاص بالوكالة:
-"002836536674"
-ثم أرسل لنا وصل الدفع هنا لنبدأ العمل على مشروعك فوراً اليوم!`;
-};
-
-// --- [دالة التشغيل الفوري لحملة Webcraft التسويقية] ---
-async function startWebcraftCampaign() {
-    if (typeof targetLeadsToday === 'undefined' || targetLeadsToday.length === 0) {
-       console.log("⚠️ لا توجد أهداف مضافة حالياً في القائمة.");
-       return;
-    }
-
-    console.log(`🚀 بدأت حملة Webcraft بنجاح لـ ${targetLeadsToday.length} عميل مستهدف...`);
-
-    for (const lead of targetLeadsToday) {
-       try {
-// توليد رسالة القيمة المضافة الخاصة بالعميل
-          const message = getHighConversionMessage(lead.name);
-// محاكاة تأخير آمن لتفادي الحظر (بين 15 إلى 30 ثانية لكل رسالة)
-          const randomDelay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000;
-// أمر إرسال الرسالة عبر واتساب (تأكد من توافق اسم كائن الواتساب لديك مثل client أو whatsapp)
-          // client.sendMessage(lead.phone + "@c.us", message);
-
-          console.log(`✅ تم إرسال العرض بنجاح إلى: ${lead.name} (${lead.phone})`);
-
-// انتظار الفاصل الزمني الآمن قبل الانتقال للعميل الموالي
-          await new Promise(resolve => setTimeout(resolve, randomDelay));
-
-       } catch (error) {
-          console.error(`❌ فشل في إرسال الرسالة إلى ${lead.name}:`, error.message);
-       }
-    }
-    console.log("🎉 اكتملت حملة اليوم بنجاح ووصلت العروض لكل الأهداف!");
-}
-
-// تنفيذ الدالة تلقائياً بعد ثوانٍ من استقرار الاتصال
-setTimeout(() => {
-    startWebcraftCampaign();
-}, 10000);
