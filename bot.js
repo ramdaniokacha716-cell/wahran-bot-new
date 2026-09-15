@@ -54,18 +54,28 @@ const weeklyScheduleLeads = {
     "الثلاثاء": {
           category: "محلات خياطة وتصميم أزياء (Tailleur)",
           targets: [
-             { name: "Atelier de couture rose et soie", phone: "0541367733", wilaya: "alger" }, { name: "Atelier Harmonie constantine", phone: "0669594548", wilaya: "costontine" },
-             { name: "Cozy collection atelier", phone: "0555145183", wilaya: "alger" }, { name: "Ahlami h couture", phone: "0558461769", wilaya: "costontine" },
-             { name: "Atelier de Confection RH", phone: "0551057286", wilaya: "alger" }, { name: "Liliane couture", phone: "0793517595", wilaya: "costontine" },
-             { name: "Atelier Couture & Création Radia", phone: "0552942985", wilaya: "alger" }, { name: "ATELIER LAHNA", phone: "0542739950", wilaya: "tizi ouzou" },
-             { name: "SB haute couture", phone: "0556487626", wilaya: "alger" }, { name: "Tailleur de mon temps", phone: "0662176242", wilaya: "tizi ouzou" },
-             { name: "Atelier de couture Oran - ورشة الخياطة في وهران", phone: "0779561998", wilaya: "oran" }, { name: "Dahlab Création", phone: "0541099889", wilaya: "tizi ouzou" },
-             { name: "Haute Couture Traditionnelle Tizefri", phone: "0557762759", wilaya: "oran" }, { name: "Atelier de couture", phone: "0552253422", wilaya: "tizi ouzou" },
-             { name: "Djalil Couture", phone: "0658658818", wilaya: "oran" }, { name: "Z.k Créations", phone: "0560482984", wilaya: "tlamcen" },
-             { name: "Sabrine Créations - Atelier de Couture", phone: "0555166869", wilaya: "oran" }, { name: "Boutique ismayajeri couture", phone: "0556043385", wilaya: "tlamcen" },
-             { name: "Daya style Couture", phone: "0795215769", wilaya: "oran" }, { name: "Andaloussia Haute Couture Ets Choukchou Braham Amina", phone: "0556854400", wilaya: "tlamcen" }
-       ]
-    },
+             { name: "Atelier de couture rose et soie", phone: "0541367733", wilaya: "الجزائر" },
+             { name: "Atelier Harmonie Constantine", phone: "0558461769", wilaya: "قسنطينة" },
+             { name: "Cozy collection atelier", phone: "0555145183", wilaya: "الجزائر" },
+             { name: "Ahlami h couture", phone: "0703517594", wilaya: "الجزائر" },
+             { name: "Atelier de Confection RH", phone: "0551057286", wilaya: "الجزائر" },
+             { name: "Liliane couture", phone: "0793517594", wilaya: "الجزائر" },
+             { name: "Atelier Couture & Création Radia", phone: "0552942985", wilaya: "الجزائر" },
+             { name: "ATELIER LAURA", phone: "0540000000", wilaya: "الجزائر" },
+             { name: "SE haute couture", phone: "0556487626", wilaya: "الجزائر" },
+             { name: "tailleur de mon temps", phone: "0662176242", wilaya: "الجزائر" },
+             { name: "Atelier de couture Oran", phone: "0658658818", wilaya: "وهران" },
+             { name: "Dahliah Création", phone: "0558482904", wilaya: "وهران" },
+             { name: "Haute Couture Traditionnelle Tizefri", phone: "0557762759", wilaya: "تيزي وزو" },
+             { name: "Z.k Créations", phone: "0558482904", wilaya: "وهران" },
+             { name: "Djalil Couture", phone: "0658658818", wilaya: "وهران" },
+             { name: "Sabrine Créations - Atelier de Couture", phone: "0555168880", wilaya: "وهران" },
+             { name: "Boutique Limoujeri", phone: "0709521578", wilaya: "وهران" },
+             { name: "Daye style Couture", phone: "0709521578", wilaya: "وهران" },
+             { name: "Andalouissia Haute Couture Et Chouchou", phone: "0555168880", wilaya: "تلمسان" },
+             { name: "", phone: "", wilaya: "" }
+          ]
+},
     "الأربعاء": {
           category: "مقاهي ومطاعم عصرية",
           targets: [
