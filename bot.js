@@ -187,7 +187,7 @@ const getHighConversionMessage = (leadName) => {
 ثم أرسل لنا وصل الدفع (صورة) هنا لنبدأ فوراً!`;
 };
 
-نظام الرد الآلي وتأكيد الدفع وتوليد الموقع
+نظام الرد الآلي وتأكيد الدفع وتوليد الموقع //
 client.on('message', async (msg) => {
     if (msg.hasMedia) {
        try {
