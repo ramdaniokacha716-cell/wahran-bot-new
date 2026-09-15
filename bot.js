@@ -60,7 +60,6 @@ const dailyTargetSchedule = {
     Saturday: { wilayas: ["Algiers", "Oran", "Constantine"], batch1: { activity: "فنادق", count: 10 }, batch2: { activity: "مؤسسات", count: 10 } },
     Sunday: { wilayas: ["Blida", "Setif", "Annaba"], batch1: { activity: "شركات", count: 10 }, batch2: { activity: "مصانع", count: 10 } },
     Monday: { wilayas: ["Mostaganem", "Tlemcen", "Batna"], batch1: { activity: "محلات ملابس رجال", count: 10 }, batch2: { activity: "محلات نساء", count: 10 } },
-    Tuesday: { wilayas: ["Tizi Ouzou", "Bejaia", "Chlef"], batch1: { activity: "صيدليات", count: 10 }, batch2: { activity: "محلات خياطة", count: 10 } },
     Wednesday: { wilayas: ["Biskra", "Djelfa", "Tiaret"], batch1: { activity: "مقاهي ومطاعم", count: 10 }, batch2: { activity: "قاعات أفراح", count: 10 } },
     Thursday: { wilayas: ["Skikda", "Mascara", "El Oued"], batch1: { activity: "شركات مقاولات", count: 10 }, batch2: { activity: "متاجر تجارية", count: 10 } },
     Friday: { wilayas: ["Boumerdes", "Tipasa", "Ghardaia"], batch1: { activity: "وكالات سياحية", count: 10 }, batch2: { activity: "معارض تجارية", count: 10 } }
