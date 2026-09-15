@@ -187,11 +187,11 @@ const getHighConversionMessage = (leadName) => {
 ثم أرسل لنا وصل الدفع (صورة) هنا لنبدأ فوراً!`;
 };
 
-نظام الرد الآلي وتأكيد الدفع وتوليد الموقع //
+// نظام الرد الآلي وتأكيد الدفع وتوليد الموقع  
 client.on('message', async (msg) => {
     if (msg.hasMedia) {
        try {
-Puppeteerمنح المتصفح ثانيتين لاستقرار السياق وتجنب انهيار //
+Puppeteer // منح المتصفح ثانيتين لاستقرار السياق وتجنب انهيار 
           await new Promise(resolve => setTimeout(resolve, 2000));
           const media = await msg.downloadMedia();
           if (media && media.mimetype && media.mimetype.startsWith('image/')) {
