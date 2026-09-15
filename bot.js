@@ -1,6 +1,7 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const express = require('express');
+const puppeteer = require('puppeteer');
 
 // --- [جدول الأيام والعملاء المستهدفين لوكالة Webcraft - 20 مكاناً فارغاً لكل يوم] ---
 const weeklyScheduleLeads = {
