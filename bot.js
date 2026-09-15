@@ -80,15 +80,24 @@ const weeklyScheduleLeads = {
     "الأربعاء": {
           category: "مقاهي ومطاعم عصرية",
           targets: [
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "Crêperie_kinder_plus+", phone: "+213665921891", wilaya: "Oran" }, 
+             { name: "STAR BG's", phone: "+213559293673", wilaya: "Oran" },
+             { name: "Coffee Shop Oran", phone: "+213782947797", wilaya: "Oran" }, 
+             { name: "Happy Space", phone: "+213698720708", wilaya: "Alger centre" },
+             { name: "THE HEAVEN", phone: "+213549049724", wilaya: "Alger centre" }, 
+             { name: "Le SAIGON", phone: "+213771294209", wilaya: "Alger centre" },
+             { name: "VERDE COFFEE LOUNGE", phone: "+213551270441", wilaya: "Alger" },
+             { name: "Classico Café", phone: "+213799217102", wilaya: "Alger" },
+             { name: "La luna", phone: "+213560000003", wilaya: "Oran" }, 
+             { name: "Café Milano +", phone: "+213779536242", wilaya: "Alger" },
+             { name: "Camden Food & Grill", phone: "0560253451", wilaya: "Oran" },
+             { name: "Restaurant Pablo", phone: "0557229989", wilaya: "Alger" },
+             { name: "Restaurant Smaïn", phone: "0671777106", wilaya: "Oran" },
+             { name: "Food clock", phone: "0669367756", wilaya: "Oran" },
+             { name: "Pizzeria Restarant Oscar", phone: "0551170113", wilaya: "Tlamcen" },
+             { name: "Oscar pizza", phone: "0561208947", wilaya: "Mostagenam" },
+             { name: "Fast Food Oscar", phone: "0790271335", wilaya: "Oran" },
+             { name: "", phone: "", wilaya: "" },
              { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
        ]
     },
@@ -284,8 +293,8 @@ function initDailyScheduler() {
 
        // 1. الفترة الصباحية: تبدأ من 10:00 إلى 15:00
        if (hour >= 10 && hour < 15) {
-           if (hour === 17 && minute === 39) {
-              console.log("🕒  الفترة المسائية (17:00 صباحاً). انطلاق الحملة...");
+           if (hour === 10 && minute === 00) {
+              console.log("🕒  بداية العمل الفترة الصباحية  (10:00 صباحاً). انطلاق الحملة...");
               startWebcraftCampaign(); //
            }
        }
