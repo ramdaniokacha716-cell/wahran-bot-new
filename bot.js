@@ -191,6 +191,8 @@ const getHighConversionMessage = (leadName) => {
 client.on('message', async (msg) => {
     if (msg.hasMedia) {
        try {
+Puppeteerمنح المتصفح ثانيتين لاستقرار السياق وتجنب انهيار //
+           await new Promise(resolve => setTimeout(resolve, 2000));
           const media = await msg.downloadMedia();
           if (media && media.mimetype && media.mimetype.startsWith('image/')) {
             const onboardingResponse = `✅ **تم تأكيد استلام وصل الدفع بنجاح يا غالي!**
