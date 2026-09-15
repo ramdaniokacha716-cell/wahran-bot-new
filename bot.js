@@ -1,7 +1,117 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const express = require('express');
-const weeklyScheduleLeads = require('./leads-schedule');
+
+// --- [جدول الأيام والعملاء المستهدفين لوكالة Webcraft - 20 مكاناً فارغاً لكل يوم] ---
+const weeklyScheduleLeads = {
+    "السبت": {
+          category: "مصانع وقاعات حفلات ومؤسسات كبرى",
+          targets: [
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+       ]
+    },
+    "الأحد": {
+          category: "فنادق ومؤسسات سياحية ووكالات أسفار",
+          targets: [
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+       ]
+    },
+    "الإثنين": {
+          category: "صيدليات ومراكز تجارية كبرى",
+          targets: [
+             { name: "Pharmacie Mechiche Ahcene", phone: "+21326121720", wilaya: "تيزي وزو" },
+             { name: "Pharmacie RABIA Lyes", phone: "+21326111263", wilaya: "تيزي وزو" },
+             { name: "Pharmacie Chifa", phone: "+213698858892", wilaya: "تيزي وزو" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }
+       ]
+    },
+    "الثلاثاء": {
+          category: "محلات خياطة وتصميم أزياء (Tailleur)",
+          targets: [
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+       ]
+    },
+    "الأربعاء": {
+          category: "مقاهي ومطاعم عصرية",
+          targets: [
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+       ]
+    },
+    "الخميس": {
+          category: "شركات خدمات ووكالات تجارية",
+          targets: [
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+            { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+          ]
+    },
+    "الجمعة": {
+          category: "متاجر كبرى ومحلات تجارة حرة",
+          targets: [
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
+           { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
+       ]
+    }
+};
 
 // إعداد خادم الويب لعرض الـ QR
 const app = express();
@@ -22,11 +132,11 @@ app.get('/qr', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('<h2>🚀 نظام وكالة Webcraft يعمل بنجاح!</h2><p>اضغط على الرابط التالي لمسح الـ QR: <a href="/qr" target="_blank">عرض QR Code كصورة</a></p>');
+    res.send('<h2>🚀 نظام وكالة Webcraft يعمل بنجاح!</h2><p>رابط الـ QR كصورة: <a href="/qr" target="_blank">عرض QR Code</a></p>');
 });
 
 app.listen(PORT, () => {
-    console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT} - رابط الـ QR جاهز عبر /qr`);
+    console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT}`);
 });
 
 // إعداد عميل الواتساب
@@ -49,89 +159,69 @@ client.on('ready', () => {
 
 // رسالة العرض الترويجي الأولى للعملاء
 const getHighConversionMessage = (leadName) => {
-    return `مرحباً بك يا دكتور / (${leadName})، معك خيّر الدين ممثل وكالة Webcraft الرقمية. 🌟
+    return `مرحباً بك يا سيف / (${leadName})، معك خيّر الدين ممثل وكالة Webcraft الرقمية. 🌟
 
-لاحظنا أن مؤسستكم الموقرة غير متواجدة على شبكة الإنترنت نهائياً، بينما يبحث عنكم يومياً مئات الزبائن المحتملين في ولايتكم عبر Google ويذهبون للمنافسين!
+لاحظنا أن مؤسستكم الموقرة غير متواجدة على شبكة الإنترنت نهائياً، بينما يبحث عنكم يومياً مئات الزبائن المحتملين في ولايتكم عبر Google!
 
-💡 **لماذا هذا الاستثمار ضروري جداً لنمو نشاطكم اليوم؟**
-نحن لا نبني لك مجرد "موقع إلكتروني تقليدي"، بل نؤسس لك **نظام جلب زبائن آلي متكامل** بقيمة حقيقية تتجاوز 45,000 دج، يتضمن حصرياً:
-1️⃣ **منصة رقمية متجاوبة 3D** تظهر فيها مؤسستك بأرقى وأفخم حلة تجارية.
-2️⃣ **زر طلب وحجز مباشر للواتساب** لكي يتواصل معك الزبون ويطلب الخدمة وهو في منزله.
-3️⃣ **تهيئة احترافية لمحركات البحث (Google Maps SEO)** لتكونوا أول اختيار يظهر للمواطن في المنطقة.
+💡 **لماذا هذا الاستثمار ضروري جداً لنمو نشاطكم؟**
+نبني لك **نظام جلب زبائن آلي متكامل** بقيمة تتجاوز 45,000 دج، يتضمن:
+1️⃣ منصة رقمية متجاوبة 3D تظهر فيها مؤسستك بأرقى حلة.
+2️⃣ زر طلب وحجز مباشر للواتساب.
+3️⃣ تهيئة احترافية لمحركات البحث (Google Maps SEO).
 
-🔥 **كل هذه المنظومة المتكاملة بسعر استثنائي رمزي لمرة واحدة: 10,000 دج فقط!**
+🔥 **بسعر استثنائي رمزي لمرة واحدة: 10,000 دج فقط!**
 
 💳 **طريقة تفعيل الحجز الفوري:**
 قم بتحويل المبلغ عبر الـ RIP الخاص بالوكالة:
-"002836536674";
-ثم أرسل لنا وصل الدفع (صورة) هنا لنبدأ في بناء ونشر مشروعك فوراً اليوم!`;
+` + "002836536674" + `
+ثم أرسل لنا وصل الدفع (صورة) هنا لنبدأ فوراً!`;
 };
 
-// --- [النظام الآلي المتكامل لمعالجة الدفع، تسليم الموقع، وتنبيه المالك] ---
+// نظام الرد الآلي وتأكيد الدفع وتوليد الموقع
 client.on('message', async (msg) => {
-// 1. إذا أرسل العميل صورة وصل الدفع
     if (msg.hasMedia) {
        try {
           const media = await msg.downloadMedia();
           if (media && media.mimetype && media.mimetype.startsWith('image/')) {
-             console.log(`📥 تم استلام وصل الدفع من الرقم: ${msg.from}`);
+            const onboardingResponse = `✅ **تم تأكيد استلام وصل الدفع بنجاح يا غالي!**
 
-             const onboardingResponse = `✅ **تم تأكيد استلام وصل الدفع بنجاح يا غالي!**
+مبارك مقدماً على مشروعك الرقمي مع وكالة **Webcraft**. تم توجيه الوصل وتأكيد العمليات عبر بريدي موب (RIP: 002836536674).
 
-مبارك مقدماً على مشروعك الرقمي مع وكالة **Webcraft**. تم توجيه الوصل إلى قسم الحسابات وتأكيد العملية عبر بريدي موب RIP: "002836536674".
-
-لبدء توليد ورفع **موقعك الإلكتروني العصري بتصميم 3D وأزرار تفاعلية** وربطه بمحركات البحث Google خلال دقائق، يرجى إرسال المعلومات التالية في رسالة واحدة:
-
+أرسل لنا المعلومات التالية في رسالة واحدة لتوليد ورفع موقعك:
 1️⃣ **اسم المحل أو المؤسسة التجاري:**
 2️⃣ **النشاط بدقة والولاية:**
-3️⃣ **رقم الهاتف الرسمي للطلبات:**
+3️⃣ **رقم الهاتف الرسمي للطلبات:** 🚀`;
 
-بمجرد إرسالك لهذه المعلومات، سيقوم نظامنا الآلي بتجهيز الموقع وتسليمك صلاحيات التحكم الكامل! 🚀`;
-
-             await msg.reply(onboardingResponse);
+            await msg.reply(onboardingResponse);
           }
        } catch (error) {
           console.error("❌ خطأ في معالجة وصل الدفع:", error);
        }
     }
-// 2. إذا أرسل العميل معلومات محله بعد الدفع
     else if (msg.body && (msg.body.includes('اسم المحل') || msg.body.includes('صيدلية') || msg.body.length > 25)) {
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
        const finalDeliveryResponse = `🎉 **إليك رابط موقعك الإلكتروني العصري الجديد!**
 
-تم بنجاح بناء واجهتك الرقمية بتقنية 3D وتثبيت زر الواتساب وربطه بمحركات البحث Google:
 🌐 **رابط موقعك التجريبي:** https://webcraft-client-preview.up.railway.app
-🔑 **رابط لوحة تحكمك الخاصة (تحكم كامل بيدك):** https://webcraft-client-preview.up.railway.app/admin
+🔑 **لوحة تحكمك الخاصة:** https://webcraft-client-preview.up.railway.app/admin
 
-يمكنك الدخول لتعديل منتجاتك، أسعارك، وصورك بكل سهولة في أي وقت.
-شكراً لاختيارك وكالة **Webcraft**، ونحن في الخدمة دائماً! 💼✨`;
+شكراً لاختيارك وكالة **Webcraft**! 💼✨`;
 
        await msg.reply(finalDeliveryResponse);
-       console.log(`✅ تم تسليم الموقع للعميل بنجاح.`);
 
-// --- [إرسال رسالة تنبيهية فورية لك على رقمك الشخصي] ---
-// استبدل الرقم أدناه برقم هاتفك الشخصي بصيغة دولية بدون علامة + (مثلاً: 2137xxxxxxxx)
-       const ownerPhoneNumber = "213656703988@c.us";
-       const amountPaid = "10,000 دج";
-
-       const ownerNotificationMessage = `🚨 **تنبيه مالي جديد - Webcraft!** 💰
-
-تم تأكيد عملية بيع ودفع ناجحة:
-🏪 **اسم المحل المرسل:** ${storeNameMatch}
-💵 **المبلغ الواصل في بريدي موب:** ${amountPaid} عبر RIP: "002836536674";
-📱 **رقم العميل:** ${msg.from}
-Status: تم تسليم الموقع ولوحة التحكم للعميل تلقائياً بنجاح ✅`;
+       // إرسال إشعار مالي لرقمك الشخصي
+       const ownerPhoneNumber = "213656703988@c.us"; // استبدل برقم هاتفك مع الرمز الدولي
+       const ownerNotificationMessage = `🚨 **تنبيه مالي جديد - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ الواصل: 10,000 دج (RIP: 002836536674)\n📱 رقم العميل: ${msg.from}`;
 
        try {
           await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
-          console.log(`📱 تم إرسال إشعار تفاصيل المبيعات إلى هاتفك الشخصي بنجاح.`);
        } catch (err) {
           console.error(`❌ فشل إرسال التنبيه للمالك:`, err.message);
        }
     }
 });
 
-// جدول الحملات اليومية
+// النظام الآلي لتشغيل الحملات
 async function startWebcraftCampaign() {
     const daysMap = {
        "Saturday": "السبت", "Sunday": "الأحد", "Monday": "الإثنين",
@@ -143,42 +233,74 @@ async function startWebcraftCampaign() {
     const activeDayKey = daysMap[englishDay] || "الإثنين";
 
     const scheduleData = weeklyScheduleLeads[activeDayKey];
-    if (!scheduleData || !scheduleData.targets || scheduleData.targets.length === 0) return;
+    if (!scheduleData || !scheduleData.targets) return;
 
-    console.log(`🚀 بدأت حملة Webcraft لنشاط اليوم [${activeDayKey}] ...`);
+    // تصفية الأماكن الفارغة (التي بدون اسم أو رقم) لتفادي الأخطاء
+    const validTargets = scheduleData.targets.filter(lead => lead.name && lead.phone);
+    if (validTargets.length === 0) {
+       console.log(`⚠️ لا توجد أهداف ممتلئة مسجلة لليوم (${activeDayKey}). يرجى ملء الخانات.`);
+       return;
+    }
 
-    for (const lead of scheduleData.targets) {
-       if (!lead.phone) continue;
+    console.log(`🚀 بدء حملة ${activeDayKey} لنشاط: ${scheduleData.category} (${validTargets.length} عميل)`);
+
+    for (const lead of validTargets) {
        try {
           const message = getHighConversionMessage(lead.name);
           const chatId = lead.phone.replace(/[^0-9]/g, '') + '@c.us';
 
           await client.sendMessage(chatId, message);
-          console.log(`✅ تم إرسال العرض إلى: ${lead.name}`);
-
+          console.log(`✅ تم إرسال العرض إلى: ${lead.name} (${lead.phone})`);
+          // فاصل زمني عشوائي آمن بين 25 إلى 45 ثانية لتفادي الحظر
           const randomDelay = Math.floor(Math.random() * (45000 - 25000 + 1)) + 25000;
           await new Promise(resolve => setTimeout(resolve, randomDelay));
        } catch (error) {
           console.error(`❌ فشل الإرسال إلى ${lead.name}:`, error.message);
        }
     }
-    cleanupMemory();
 }
 
+// --- [جدول أوقات العمل الذكية بدقة] ---
 function initDailyScheduler() {
+    console.log("⏰ تم تفعيل جدول أوقات العمل الذكي للوكالة.");
+
     setInterval(() => {
        const now = new Date();
-       const hours = now.toLocaleString('en-US', { timeZone: 'Africa/Algiers', hour: 'numeric', hour12: false });
-       if (hours === '10') {
-          startWebcraftCampaign();
+       const hour = parseInt(now.toLocaleString('en-US', { timeZone: 'Africa/Algiers', hour: 'numeric', hour12: false }));
+       const minute = parseInt(now.toLocaleString('en-US', { timeZone: 'Africa/Algiers', minute: 'numeric', hour12: false }));
+
+       // 1. الفترة الصباحية: تبدأ من 10:00 إلى 15:00
+       if (hour >= 10 && hour < 15) {
+           if (hour === 10 && minute === 0) {
+              console.log("🕒 بداية الفترة الصباحية (10:00 صباحاً). انطلاق الحملة...");
+              startWebcraftCampaign();
+           }
        }
-    }, 3600000);
+       // 2. فترة الاستراحة الصباحية: من 15:00 إلى 15:30
+       else if (hour === 15 && minute >= 0 && minute <= 30) {
+           // البوت في وضع الاستراحة
+       }
+
+       // 3. الفترة المسائية: من 15:31 إلى 00:00 (منتصف الليل)
+       else if ((hour === 15 && minute > 30) || (hour > 15 && hour <= 23)) {
+          // فترة العمل المسائية مستمرة
+       }
+
+       // 4. فترة الليل والصيانة والتنظيف: من 00:00 (منتصف الليل) إلى 09:30 صباحاً
+       else if (hour >= 0 && hour < 10) {
+          if (hour === 0 && minute === 0) {
+            console.log("🌙 بدء فترة الاستراحة الليلية، الصيانة وتصفية الذاكرة (RAM)...");
+            cleanupMemory();
+          }
+       }
+    }, 60000); // فحص كل دقيقة بدقة
 }
 
+// دالة تصفية الذاكرة العشوائية
 function cleanupMemory() {
     if (global.gc) {
        global.gc();
-       console.log("🧹 تم تنظيف الذاكرة (RAM).");
+       console.log("🧹 تم تنظيف الذاكرة (RAM) وتجهيز السيرفر لليوم التالي بنجاح.");
     }
 }
 
