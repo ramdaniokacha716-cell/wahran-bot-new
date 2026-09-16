@@ -257,8 +257,8 @@ Puppeteer // منح المتصفح ثانيتين لاستقرار السياق 
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
        const finalDeliveryResponse = `🎉 **إليك رابط موقعك الإلكتروني العصري الجديد!**
 
-🌐 **رابط موقعك التجريبي:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(lead.name)} **:
-🔑 **لوحة تحكمك الخاصة:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(lead.name)} **:
+🌐 **رابط موقعك التجريبي:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)} **:
+🔑 **لوحة تحكمك الخاصة:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)} **:
 
 شكراً لاختيارك وكالة **Webcraft**! 💼✨`;
 
