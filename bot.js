@@ -211,7 +211,7 @@ client.on('ready', () => {
 });
 
 // رسالة العرض الترويجي الأولى للعملاء
-const getHighConversionMessage = (leadName) => {
+const getHighConversionMessage = (storeNameMatch) => {
     return `مرحباً بك يا سيف / (${leadName})، معك خيّر الدين ممثل وكالة Webcraft الرقمية. 🌟
 
 لاحظنا أن مؤسستكم الموقرة غير متواجدة على شبكة الإنترنت نهائياً، بينما يبحث عنكم يومياً مئات الزبائن المحتملين في ولايتكم عبر Google!
@@ -276,7 +276,7 @@ Puppeteer // منح المتصفح ثانيتين لاستقرار السياق 
     }
 });
 
-// النظام الآلي لتشغيل الحملات
+//   يبدء مباشرة بعد مسح QRcode النظام الآلي لتشغيل الحملات
 async function startWebcraftCampaign() {
     const daysMap = {
        "Saturday": "السبت", "Sunday": "الأحد", "Monday": "الإثنين",
