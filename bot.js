@@ -97,10 +97,8 @@ const weeklyScheduleLeads = {
              { name: "Pizzeria Restarant Oscar", phone: "0551170113", wilaya: "Tlamcen" },
              { name: "Oscar pizza", phone: "0561208947", wilaya: "Mostagenam" },
              { name: "Fast Food Oscar", phone: "0790271335", wilaya: "Oran" },
-             { name: "", phone: "", wilaya: "" },
-             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" }
-       ]
-    },
+          ]
+},
     "الخميس": {
           category: "شركات خدمات ووكالات تجارية",
           targets: [
