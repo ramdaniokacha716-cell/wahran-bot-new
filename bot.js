@@ -155,15 +155,17 @@ app.get('/', (req, res) => {
     res.send('<h2>🚀 نظام وكالة Webcraft يعمل بنجاح!</h2><p>رابط الـ QR كصورة: <a href="/qr" target="_blank">عرض QR Code</a></p>');
 });
 
-// مسار معاينة موقع العميل مباشرة من سيرفر الوكالة الأساسي
-app.get('/preview', (req, res) => {
+
+// مسار معاينة موقع العميل مخصصاً بالاسم
+app.get('/preview/:clientName', (req, res) => {
+    const clientName = decodeURIComponent(req.params.clientName);
     res.send(`
        <!DOCTYPE html>
        <html lang="ar" dir="rtl">
        <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>معاينة الموقع الرقمي - Webcraft</title>
+          <title>معاينة الموقع الرقمي - ${clientName}</title>
           <style>
              body { font-family: Tahoma, sans-serif; background: #0f172a; color: #fff; text-align: center; padding: 50px; }
              .card { background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); max-width: 600px; margin: 0 auto; }
@@ -174,7 +176,7 @@ app.get('/preview', (req, res) => {
        </head>
        <body>
           <div class="card">
-             <h1>🚀 نموذج موقع المقهى / المطعم العصري</h1>
+             <h1>🚀 نموذج موقع: ${clientName}</h1>
              <p>هذه هي المعاينة الحصرية لمشروعك الرقمي المقترح من وكالة <strong>Webcraft</strong>.</p>
              <p>يحتوي الموقع على نظام طلبات سريع، واجهة عصرية متجاوبة، وربط مباشر مع واتساب وخريطة الموقع!</p>
              <a href="https://wa.me/+213655334455" class="btn">اطلب تفعيل موقعك الآن (10,000 دج)</a>
@@ -253,8 +255,8 @@ Puppeteer // منح المتصفح ثانيتين لاستقرار السياق 
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
        const finalDeliveryResponse = `🎉 **إليك رابط موقعك الإلكتروني العصري الجديد!**
 
-🌐 **رابط موقعك التجريبي:// https://wahran-agency-bot-production.up.railway.app/preview**:
-🔑 **لوحة تحكمك الخاصة:// https://wahran-agency-bot-production.up.railway.app/preview**:
+🌐 **رابط موقعك التجريبي:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(lead.name)} **:
+🔑 **لوحة تحكمك الخاصة:// https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(lead.name)} **:
 
 شكراً لاختيارك وكالة **Webcraft**! 💼✨`;
 
