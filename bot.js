@@ -99,6 +99,8 @@ const weeklyScheduleLeads = {
              { name: "Fast Food Oscar", phone: "+213563745048", wilaya: "Oran" },
              { name: "Les trois sources", phone: "+213561208947", wilaya: "Oran" },
              { name: "Restaurant scenario ibra", phone: "+213560176220", wilaya: "Oran" },
+             { name: "Le Parfait", phone: "+213798384908", wilaya: "Oran" },
+             { name: "Parfait d'oran", phone: "+213775148449", wilaya: "Oran" },
           ]
 },
     "الخميس": {
