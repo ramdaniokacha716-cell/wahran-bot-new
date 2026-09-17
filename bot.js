@@ -1,20 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const express = require('express');
-const puppeteer = ({
-    authStrategy: new LocalAuth(),
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-stuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canas',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu',
-        ]
-    }
-});
 
 // --- [قائمة الـ 100 عميل لليوم] ---
 const activeDayTargets = {
@@ -134,7 +120,16 @@ app.listen(PORT, () => {
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-accelerated-2d-canvas', '--no-zygote', '--single-process', '--disable-gpu']
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-stuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canas',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+        ]
     }
 });
 
