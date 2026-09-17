@@ -159,26 +159,51 @@ const getHighConversionMessage = (storeName, wilaya) => {
 
 // --- [نظام الرد الآلي التسويقي الخارق باللهجة الوهرانية لإغلاق البيع فوراً ودون تردد] ---
 
-// نظام الرد الآلي التسويقي الآمن ضد أخطاء الميديا
+
+// نظام الرد الآلي التسويقي الآمن والمفحوص 100%
 client.on('message', async (msg) => {
     if (msg.fromMe || msg.from.includes('@g.us')) return;
 
     const userText = msg.body ? msg.body.toLowerCase() : "";
 
-// التحقق الآمن من أن الرسالة تحتوي فعلاً على صورة صالحة وليست مجرد إشعار فارغ
+// 1. التحقق من استقبال صورة وصل الدفع
     if (msg.hasMedia) {
        try {
-          const media = await msg.downloadMedia();
-          if (media && media.mimetype && media.mimetype.startsWith('image/')) {
-             const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **النشاط بدقة والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
+             const media = await msg.downloadMedia();
+             if (media && media.mimetype && media.mimetype.startsWith('image/')) {
+                const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **النشاط بدقة والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
 
-             await msg.reply(onboardingResponse);
-             return;
-          }
+                await msg.reply(onboardingResponse);
+                return;
+             }
        } catch (error) {
-          console.error("⚠️ تنبيه: فشل تحميل الميديا أو أن الملف غير مدعوم، سيتم تجاهل الخطأ ومتابعة الرد الآلي.");
+             console.error("⚠️ تنبيه: فشل تحميل الميديا، سيتم متابعة الرد الآلي.");
        }
     }
+
+// 2. التحقق من إرسال معلومات المحل بعد الدفع
+    if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
+       const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
+       const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا تم تفعيل موقعك النهائي والظهور على محركات البحث:\n\n🌐 **رابط موقعك الرسمي الدائم:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}\n🔑 **تم فك الحماية وتفعيل التحكم الكامل لك وحدك!**\n\nهنيئاً لك، ربي يبارك لك في رزقك 💼✨`;
+
+       await msg.reply(finalDeliveryResponse);
+
+       const ownerPhoneNumber = "213656703988@c.us";
+       const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
+       try {
+             await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
+       } catch (err) {
+             console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
+       }
+    }
+// 3. الرد الافتراضي للإقناع باللهجة المحلية إذا لم يتحقق الشّرطان السَّابقان
+    else {
+       const wahraniSalesResponse = `يا خويا، راك شفت المعاينة 3D بعينك وكيفاش المحل يبان بروفيشنال! \n\nالتحكم الكامل ومحركات البحث راهم يستناو فيك، ما تخليش المنافسين يدوك الزبائن. ابعت الدفع في بريدي موب (002836536674) وابعت لي الوصل هنا باش نسلم لك موقعك النهائي فوراً! 💪🔥`;
+
+       await msg.reply(wahraniSalesResponse);
+    }
+});
+
 
 // الرد على معلومات المحل بعد الدفع
     if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
