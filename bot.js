@@ -77,7 +77,7 @@ const weeklyScheduleLeads = {
              { name: "Atelier queens", phone: "+213553229558", wilaya: "سيدي بلعباس" }
           ]
 },
-    "الأربعاء": {
+    "الخميس": {
           category: "مقاهي ومطاعم عصرية",
           targets: [
              { name: "Crêperie_kinder_plus+", phone: "+213665921891", wilaya: "Oran" }, 
@@ -103,7 +103,7 @@ const weeklyScheduleLeads = {
              { name: "Parfait d'oran", phone: "+213775148449", wilaya: "Oran" },
           ]
 },
-    "الخميس": {
+    "الاربعاء": {
           category: "شركات خدمات ووكالات تجارية",
           targets: [
             { name: "", phone: "", wilaya: "" }, { name: "", phone: "", wilaya: "" },
