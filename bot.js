@@ -45,36 +45,6 @@ app.get('/', (req, res) => {
     res.send('<h2>🚀 نظام وكالة Webcraft يعمل بنجاح!</h2><p>رابط الـ QR كصورة: <a href="/qr" target="_blank">عرض QR Code</a></p>');
 });
 
-// مسار معاينة موقع العميل 3D مخصصاً بالاسم
-app.get('/preview/:clientName', (req, res) => {
-    const clientName = decodeURIComponent(req.params.clientName);
-    res.send(`
-       <!DOCTYPE html>
-       <html lang="ar" dir="rtl">
-       <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>معاينة الموقع الرقمي - ${clientName}</title>
-          <style>
-             body { font-family: Tahoma, sans-serif; background: #0f172a; color: #fff; text-align: center; padding: 50px; }
-             .card { background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); max-width: 600px; margin: 0 auto; }
-             h1 { color: #38bdf8; }
-             p { color: #94a3b8; line-height: 1.6; }
-             .btn { display: inline-block; background: #22c55e; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 20px; }
-          </style>
-       </head>
-       <body>
-          <div class="card">
-             <h1>🚀 نموذج موقع: ${clientName}</h1>
-             <p>هذه هي المعاينة الحصرية لمشروعك الرقمي المقترح من وكالة <strong>Webcraft</strong>.</p>
-             <p>يحتوي الموقع على نظام طلبات سريع، واجهة عصرية متجاوبة 3D، وربط مباشر مع واتساب وخريطة الموقع!</p>
-             <a href="https://wa.me/+213655334455" class="btn">اطلب تفعيل موقعك الآن (10,000 دج)</a>
-          </div>
-       </body>
-       </html>
-    `);
-});
-
 app.listen(PORT, () => {
     console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT}`);
 });
