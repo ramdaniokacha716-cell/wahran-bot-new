@@ -14,6 +14,8 @@ const client = new Client({
             '--single-process',
             '--disable-gpu',
         ]
+    }
+});
 
 // --- [قائمة الـ 100 عميل لليوم] ---
 const activeDayTargets = {
