@@ -203,52 +203,6 @@ client.on('message', async (msg) => {
    }
 });
 
-// 2. التحقق من إرسال معلومات المحل بعد الدفع
-    if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
-       const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
-       const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا تم تفعيل موقعك النهائي والظهور على محركات البحث:\n\n🌐 **رابط موقعك الرسمي الدائم:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}\n🔑 **تم فك الحماية وتفعيل التحكم الكامل لك وحدك!**\n\nهنيئاً لك، ربي يبارك لك في رزقك 💼✨`;
-
-       await msg.reply(finalDeliveryResponse);
-
-       const ownerPhoneNumber = "213656703988@c.us";
-       const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
-       try {
-          await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
-       } catch (err) {
-          console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
-       }
-    }
-// 3. الرد الافتراضي للإقناع باللهجة المحلية إذا لم يتحقق الشّرطان السَّابقان
-    else {
-       const wahraniSalesResponse = `يا خويا، راك شفت المعاينة 3D بعينك وكيفاش المحل يبان بروفيشنال! \n\nالتحكم الكامل ومحركات البحث راهم يستناو فيك، ما تخليش المنافسين يدوك الزبائن. ابعت الدفع في بريدي موب (002836536674) وابعت لي الوصل هنا باش نسلم لك موقعك النهائي فوراً! 💪🔥`;
-
-       await msg.reply(wahraniSalesResponse);
-    }
-});
-
-
-// الرد على معلومات المحل بعد الدفع
-    if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
-       const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
-       const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا تم تفعيل موقعك النهائي والظهور على محركات البحث:\n\n🌐 **رابط موقعك الرسمي الدائم:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}\n🔑 **تم فك الحماية وتفعيل التحكم الكامل لك وحدك!**\n\nهنيئاً لك، ربي يبارك لك في رزقك 💼✨`;
- 
-       await msg.reply(finalDeliveryResponse);
-
-       const ownerPhoneNumber = "213656703988@c.us";
-       const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
-       try {
-          await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
-       } catch (err) {
-          console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
-       }
-    }
-    else {
-       const wahraniSalesResponse = `يا خويا، راك شفت المعاينة 3D بعينك وكيفاش المحل يبان بروفيشنال! \n\nالتحكم الكامل ومحركات البحث راهم يستناو فيك، ما تخليش المنافسين يدوك الزبائن. ابعت الدفع في بريدي موب (002836536674) وابعت لي الوصل هنا باش نسلم لك موقعك النهائي فوراً! 💪🔥`;
-
-       await msg.reply(wahraniSalesResponse);
-    }
-});
-
     else if (userText.includes('اسم المحل') || userText.includes('صيدلية') || userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم'))) {
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
        const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا راك قلعت بقوة في السوق الرقمي:
