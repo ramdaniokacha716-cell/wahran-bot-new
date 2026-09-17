@@ -169,15 +169,15 @@ client.on('message', async (msg) => {
 // 1. التحقق من استقبال صورة وصل الدفع
     if (msg.hasMedia) {
        try {
-             const media = await msg.downloadMedia();
-             if (media && media.mimetype && media.mimetype.startsWith('image/')) {
-                const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **النشاط بدقة والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
+          const media = await msg.downloadMedia();
+          if (media && media.mimetype && media.mimetype.startsWith('image/')) {
+             const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **النشاط بدقة والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
 
-                await msg.reply(onboardingResponse);
-                return;
-             }
+             await msg.reply(onboardingResponse);
+             return;
+          }
        } catch (error) {
-             console.error("⚠️ تنبيه: فشل تحميل الميديا، سيتم متابعة الرد الآلي.");
+          console.error("⚠️ تنبيه: فشل تحميل الميديا، سيتم متابعة الرد الآلي.");
        }
     }
 
@@ -191,9 +191,9 @@ client.on('message', async (msg) => {
        const ownerPhoneNumber = "213656703988@c.us";
        const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
        try {
-             await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
+          await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
        } catch (err) {
-             console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
+          console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
        }
     }
 // 3. الرد الافتراضي للإقناع باللهجة المحلية إذا لم يتحقق الشّرطان السَّابقان
