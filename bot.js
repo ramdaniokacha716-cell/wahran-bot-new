@@ -3,12 +3,11 @@ const qrcode = require('qrcode');
 const express = require('express');
 const puppeteer = require('puppeteer');
 
-// --- [قائمة الـ 100 عميل لليوم - يمكنك التعديل وإضافة أو تعديل الـ 100 محل ورقمها وولايتها هنا يدوياً] ---
+// --- [قائمة الـ 100 عميل لليوم] ---
 const activeDayTargets = {
-    dayName: "الخميس", // يمكنك تغيير اليوم حسب رغبتك
+    dayName: "الخميس",
     category: "مقاهي، مطاعم ومحلات عصرية",
     targets: [
-       // ضع هنا الـ 100 محل الخاصة بك يدوياً (الاسم، الرقم بصيغته الصحيحة، والولاية)
        { name: "Crèperie_kinder_plus+", phone: "+213665921891", wilaya: "وهران" },
        { name: "STAR BG's", phone: "+213559293673", wilaya: "وهران" },
        { name: "Coffee Shop Oran", phone: "+213782947797", wilaya: "وهران" },
@@ -19,7 +18,6 @@ const activeDayTargets = {
        { name: "Classico Café", phone: "+213799217102", wilaya: "الجزائر" },
        { name: "La luna", phone: "+213560000003", wilaya: "وهران" },
        { name: "Café Milano +", phone: "+213779536242", wilaya: "الجزائر" },
-       // ... أضف حتى تكمل 100 محل بنفس التنسيق تماماً
     ]
 };
 
@@ -46,7 +44,7 @@ app.get('/', (req, res) => {
 });
 
 // ==========================================
-// 🛡️ نظام معاينة 3D المؤمّن وحماية حقوق Webcraft (يُضاف في آخر الملف)
+// 🛡️ نظام معاينة 3D المؤمّن وحماية حقوق Webcraft
 // ==========================================
 app.get('/preview/:clientName', (req, res) => {
     const clientName = decodeURIComponent(req.params.clientName);
@@ -98,7 +96,7 @@ app.get('/preview/:clientName', (req, res) => {
                     <button class="fake-btn">طلب العرض (ميزة مفعمة بعد الدفع)</button>
                 </div>
              </div>
-
+             
              <div class="action-box">
                 <p>هل أعجبك تصميم محلك وتريد **تفعيله كلياً، ربطه بمحركات البحث، واستلام التحكم التام** برابطك الخاص؟</p>
                 <a href="https://wa.me/213656703988?text=${encodeURIComponent('سلام خيّر الدين، عجبني نموذج 3D الخاص بـ ' + clientName + ' ورايب نخلص 10,000 دج ونفعل موقعي النهائي!')}" class="btn-activate">
@@ -114,6 +112,7 @@ app.get('/preview/:clientName', (req, res) => {
        </html>
     `);
 });
+
 app.listen(PORT, () => {
     console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT}`);
 });
@@ -134,15 +133,15 @@ client.on('qr', (qr) => {
 // انطلاق الوكالة والحملة فور ربط الواتساب مباشرة
 client.on('ready', async () => {
     console.log('[Whatsapp Connected]: Your agency is successfully linked forever! 🚀');
-   initDailyScheduler(); // بدء التشغيل المستمر وتنظيف الذاكرة ليلاً
-    await startWebcraftCampaign(); // إطلاق الحملة على الـ 100 عميل فوراً
+    initDailyScheduler();
+    await startWebcraftCampaign();
 });
 
-// رسالة العرض التسويقي الأولى للعملاء (تتضمن رابط المعاينة 3D والجانب النفسي)
+// رسالة العرض التسويقي الأولى للعملاء
 const getHighConversionMessage = (storeName, wilaya) => {
     return `سلام عليڪم خويا الكريم صاحب (${storeName}) في (${wilaya})، معاكم خيّر الدين من وكالة Webcraft الرقمية 🌟
 
-ر رانا نلاحظو باللي المحل نتاعكم ما شاء الله خدام وقائم بذاته، بصح راكم ضيعوا في كنز كبير برة! يومياً كاين العشرات من الزبائن في ${wilaya} يحوسوا في Google على خدماتكم ومايلاقوكمش، راهم يروحو عند المنافسين لي راهم سابقيكم بليزيستا!.
+رانا نلاحظو باللي المحل نتاعكم ما شاء الله خدام وقائم بذاته، بصح راكم ضيعوا في كنز كبير برة! يومياً كاين العشرات من الزبائن في ${wilaya} يحوسوا في Google على خدماتكم ومايلاقوكمش، راهم يروحو عند المنافسين لي راهم سابقيكم بليزيستا!.
 
 خدمنا لك بيدينا **نموذج موقع 3D عصري خاص بمحلك** باش تبانوا خير من كاع المنافسين:
 🌐 معاينة الموقع الحصري الخاص بك: https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeName)}
@@ -157,21 +156,18 @@ const getHighConversionMessage = (storeName, wilaya) => {
 ابعت المبلغ في الـ RIP نتاعنا: "002836536674" (بريدي موب)، وابعث لي هنا صورة الوصل برك، ونخلي مهندسينا يطلقوك رسمي اليوم قبل العشاء! راك باغي تضيع بلاصة على روحك؟ تشجع ومبروك عليك من اللحظة الأولى! 🚀`;
 };
 
-// --- [نظام الرد الآلي التسويقي الخارق باللهجة الوهرانية لإغلاق البيع فوراً ودون تردد] ---
-
-// نظام الرد الآلي للوكالة (مضبوط وصحيح 100%)
+// --- [نظام الرد الآلي التسويقي الموحد] ---
 client.on('message', async (msg) => {
     if (msg.fromMe || msg.from.includes('@g.us')) return;
 
     const userText = msg.body ? msg.body.toLowerCase() : "";
 
-// 1. استقبال صورة وصل الدفع
+    // 1. استقبال صورة وصل الدفع
     if (msg.hasMedia) {
        try {
           const media = await msg.downloadMedia();
           if (media && media.mimetype && media.mimetype.startsWith('image/')) {
              const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **نشاطه والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
-
              await msg.reply(onboardingResponse);
              return;
           }
@@ -180,7 +176,7 @@ client.on('message', async (msg) => {
        }
     }
 
-// 2. استقبال بيانات المحل لتفعيل الموقع النهائي
+    // 2. استقبال بيانات المحل لتفعيل الموقع النهائي
     if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
        const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا تم تفعيل موقعك النهائي والظهور على محركات البحث:\n\n🌐 **رابط موقعك الرسمي الدائم:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}\n🔑 **تم فك الحماية وتفعيل التحكم الكامل لك وحدك!**\n\nهنيئاً لك، ربي يبارك لك في رزقك 💼✨`;
@@ -195,46 +191,14 @@ client.on('message', async (msg) => {
           console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
        }
     }
-// 3. الرد الآلي للإقناع باللهجة المحلية
+    // 3. الرد الآلي التسويقي لإقناع العميل باللهجة المحلية
     else {
        const wahraniSalesResponse = `يا خويا، راك شفت المعاينة 3D بعينك وكيفاش المحل يبان بروفيشنال! \n\nالتحكم الكامل ومحركات البحث راهم يستناو فيك، ما تخليش المنافسين يدوك الزبائن. ابعت الدفع في بريدي موب (002836536674) وابعت لي الوصل هنا باش نسلم لك موقعك النهائي فوراً! 💪🔥`;
-
-       await msg.reply(wahraniSalesResponse);
-   }
-});
-
-    if (userText.includes('اسم المحل') || userText.includes('صيدلية') || userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم'))) {
-       const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
-       const wahraniSalesResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا راك قلعت بقوة في السوق الرقمي:
-
-🌐 **رابط موقعك التجريـبي 3D:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
-🔑 **لوحة التحكم الخاصة بك:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
-
-هنيئاً لك، راك اليوم سبقت قاع منافسيك في ولايتك! تتهنى به وربي يبارك لك في رزقك 💼✨`
-       // إشعار المالك بالعملية الناجحة
-       const ownerPhoneNumber = "213656703988@c.us";
-       const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
-       try {
-          await client.sendMessage(ownerPhoneNumber, ownerNotificationMessage);
-       } catch (err) {
-          console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
-       }
-    }
-    // 3. الرد الآلي التسويقي المعتمد على اللهجة الوهرانية ولعب على الجانب النفسي للعميل الذي يتردد أو يسأل
-    else {
-       // صياغة الرد باللهجة الوهرانية الفحلة لإقناع العميل وإزالة التردد تماماً
-       const wahraniSalesResponse = `يا خويا، راك طيح على عين العسل! بصح خليني نحكي معاك صراحة وبلا زواق:
-
-رانا في وقت لي ماعندوش واجهة رقمية 3D في Google وفي السوشيال ميديا، راه يخرج من السوق بالتدريج والمنافسين يدوك الزبائن عيني عينك!
-راك تخمم في 10,000 دج؟ والله يا خويا غير راك تصرفها في حكاية فارغة، بينما هي استثمار حقيقي يرجع لك أضعاف مضاعفة من أول أسبوع كيفاش؟ خاطر الزبون كي يشوفك بليزيستا ومنظم وعندك موقع تطلب منو ديركت، الثقة تطلع لـ 100% ومايبقى يخمم كاع يقصدك ديركت!
-
-الخدمة راهي محدودة واليوم رانا نقفلوا القائمة تاع الولاية. واش قلت؟ نبعث لك الـ RIP تاع بريدي موب (002836536674) تخلصها ديركت ونحجز لك بلاصتك راك رابح ضامنة؟ ما تخلش الفرصة تفوتك يا غالي! 💪🔥`;
-
        await msg.reply(wahraniSalesResponse);
     }
 });
 
-// --- [دالة إرسال الحملة التلقائية لـ 100 عميل الواحد تلو الآخر مع فاصل آمن] ---
+// --- [دالة إرسال الحملة التلقائية لـ 100 عميل] ---
 async function startWebcraftCampaign() {
     const targets = activeDayTargets.targets;
     const validTargets = targets.filter(lead => lead.name && lead.phone);
@@ -253,7 +217,7 @@ async function startWebcraftCampaign() {
 
           await client.sendMessage(chatId, message);
           console.log(`✅ تم إرسال العرض بنجاح إلى: ${lead.name} (${lead.phone}) - ولاية: ${lead.wilaya}`);
-          // فاصل زمني عشوائي آمن بين 25 إلى 45 ثانية لتفادي حظر واتساب نهائياً
+
           const randomDelay = Math.floor(Math.random() * (45000 - 25000 + 1)) + 25000;
           await new Promise(resolve => setTimeout(resolve, randomDelay));
        } catch (error) {
@@ -263,7 +227,7 @@ async function startWebcraftCampaign() {
     console.log("🏁 انتهت حملة إرسال الروابط للـ 100 عميل بنجاح تام، والبوت في حالة جاهزية تامة للرد على المراسلات وبيع الخدمات!");
 }
 
-// --- [جدول العمل المستمر من 10:00 صباحاً إلى 00:00 ليلاً والتنظيف الليلي من 00:01 إلى 9:59] ---
+// --- [جدول العمل المستمر والتنظيف الليلي] ---
 function initDailyScheduler() {
     console.log("⏰ تم تفعيل نظام العمل المستمر للوكالة (من 10:00 صباحاً حتى 00:00 ليلاً) دون توقف، وصيانة الذاكرة ليلاً.");
 
@@ -272,17 +236,15 @@ function initDailyScheduler() {
        const hour = parseInt(now.toLocaleString('en-US', { timeZone: 'Africa/Algiers', hour: 'numeric', hour12: false }));
        const minute = parseInt(now.toLocaleString('en-US', { timeZone: 'Africa/Algiers', minute: 'numeric', hour12: false }));
 
-       // تنظيف الذاكرة ومسح المخزون غير الضروري في فترة الليل من 00:01 إلى 09:59
        if (hour >= 0 && hour < 10) {
           if (hour === 0 && minute === 1) {
              console.log("🌙 فترة صيانة الليل (00:01 إلى 09:59): جاري تنظيف الذاكرة وإزالة أي ملفات مؤقتة غير ضرورية...");
              cleanupMemory();
           }
        }
-    }, 60000); // يفحص كل دقيقة
+    }, 60000);
 }
 
-// دالة تفريغ الذاكرة وتنظيف السيرفر
 function cleanupMemory() {
     if (global.gc) {
        global.gc();
@@ -291,5 +253,4 @@ function cleanupMemory() {
        console.log("🧹 تمت صيانة الذاكرة وتصفية السيرفر بنجاح.");
     }
 }
-
 client.initialize();
