@@ -90,47 +90,47 @@ app.get('/preview/:clientName', (req, res) => {
           <p class="subtitle">نموذج حي ومتكامل لعرض منتجاتك، صور محلك، واستقبال طلبات الزبائن بلمسة واحدة.</p>
 
 <!-- معرض صور حقيقي للمحل ومنتجاته -->
-          <div class="gallery-grid">
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" alt="Coffee">
-                <div class="gallery-label">ركن المشروبات</div>
+             <div class="gallery-grid">
+                <div class="gallery-item">
+                      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" alt="Coffee">
+                      <div class="gallery-label">ركن المشروبات</div>
+                </div>
+                <div class="gallery-item">
+                     <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24" alt="Cafe Interior">
+                     <div class="gallery-label">ديكور المحل 3D</div>
+                </div>
+                <div class="gallery-item">
+                     <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" alt="Dishes">
+                     <div class="gallery-label">الخدمات الخاصة</div>
+                </div>
              </div>
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24" alt="Cafe Interior">
-                <div class="gallery-label">ديكور المحل 3D</div>
-             </div>
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" alt="Dishes">
-                <div class="gallery-label">الخدمات الخاصة</div>
-             </div>
-       </div>
 
-       <div class="store-grid">
-          <div class="card-item">
-             <h3>⭐ القائمة السريعة للطلبات</h3>
-             <p>تصفح المشروبات والخدمات واطلبها مباشرة عبر الواتساب بكل سهولة.</p>
-             <a href="#order" class="action-btn">تصفح القائمة</a>
-          </div>
-          <div class="card-item">
-             <h3>🔥 العروض الخاصة اليوم</h3>
-             <p>خصومات حصرية للزبائن الدائمين وزوار الواجهة الرقمية.</p>
-             <a href="#offer" class="action-btn">اكتشف العرض</a>
-          </div>
-       </div>
+             <div class="store-grid">
+                 <div class="card-item">
+                     <h3>⭐ القائمة السريعة للطلبات</h3>
+                     <p>تصفح المشروبات والخدمات واطلبها مباشرة عبر الواتساب بكل سهولة.</p>
+                     <a href="#order" class="action-btn">تصفح القائمة</a>
+                 </div>
+                 <div class="card-item">
+                    <h3>🔥 العروض الخاصة اليوم</h3>
+                    <p>خصومات حصرية للزبائن الدائمين وزوار الواجهة الرقمية.</p>
+                    <a href="#offer" class="action-btn">اكتشف العرض</a>
+                </div>
+             </div>
 
-       <div class="action-box">
-          <p>هل أعجبك هذا التصميم الحقيقي لمتجرك وتريد **تفعيله كلياً، ربطه باسم محلك، واستلام التحكم التام**؟</p>
-          <a href="https://wa.me/213656703988?text=${encodeURIComponent('سلام خيّر الدين، أعجبتني الواجهة الحقيقية بالصور لـ ' + clientName + ' وراغب في إتمام الدفع (10,000 دج) لتفعيل موقعي النهائي!')}" class="btn-activate">
+             <div class="action-box">
+                <p>هل أعجبك هذا التصميم الحقيقي لمتجرك وتريد **تفعيله كلياً، ربطه باسم محلك، واستلام التحكم التام**؟</p>
+                <a href="https://wa.me/213656703988?text=${encodeURIComponent('سلام خيّر الدين، أعجبتني الواجهة الحقيقية بالصور لـ ' + clientName + ' وراغب في إتمام الدفع (10,000 دج) لتفعيل موقعي النهائي!')}" class="btn-activate">
 💳 أكد الدفع (10,000 دج) واحصل على موقعك النهائي الآن!
-          </a>
-       </div>
-    </div>
+                </a>
+             </div>
+          </div>
 
-    <footer>
-       Secured Digital Experience by Webcraft Agency © 2026
-    </footer>
-</body>
-</html>
+          <footer>
+             Secured Digital Experience by Webcraft Agency © 2026
+          </footer>
+       </body>
+       </html>
     ');
 });
 app.listen(PORT, () => {
