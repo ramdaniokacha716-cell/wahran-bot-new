@@ -1,7 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const express = require('express');
-const puppeteer = require('puppeteer');
 
 // --- [قائمة الـ 100 عميل لليوم] ---
 const activeDayTargets = {
