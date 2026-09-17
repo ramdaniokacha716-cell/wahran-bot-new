@@ -203,16 +203,16 @@ client.on('message', async (msg) => {
    }
 });
 
-    else if (userText.includes('اسم المحل') || userText.includes('صيدلية') || userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم'))) {
+    if (userText.includes('اسم المحل') || userText.includes('صيدلية') || userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم'))) {
        const storeNameMatch = msg.body.split('\n')[0] || "المحل التجاري";
-       const finalDeliveryResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا راك قلعت بقوة في السوق الرقمي:
+       const wahraniSalesResponse = `🎉 خلاص يا غالي، كلش راه واجد! هكذا راك قلعت بقوة في السوق الرقمي:
 
 🌐 **رابط موقعك التجريـبي 3D:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
 🔑 **لوحة التحكم الخاصة بك:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
 
 هنيئاً لك، راك اليوم سبقت قاع منافسيك في ولايتك! تتهنى به وربي يبارك لك في رزقك 💼✨`;
 
-       await msg.reply(finalDeliveryResponse);
+       await msg.reply(wahraniSalesResponse);
 
        // إشعار المالك بالعملية الناجحة
        const ownerPhoneNumber = "213656703988@c.us";
