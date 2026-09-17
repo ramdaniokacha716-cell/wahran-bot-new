@@ -46,15 +46,15 @@ app.get('/', (req, res) => {
 // 🛡️ نظام معاينة 3D المؤمّن وحماية حقوق Webcraft
 // ==========================================
 app.get('/preview/:clientName', (req, res) => {
-  const clientName = decodeURIComponent(req.params.clientName);
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en" dir="ltr">
-    <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>3D Digital Showcase - ${clientName}</title>
-       <style>
+    const clientName = decodeURIComponent(req.params.clientName);
+    res.send(`
+       <!DOCTYPE html>
+       <html lang="en" dir="ltr">
+       <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>3D Digital Showcase - ${clientName}</title>
+          <style>
              * { box-sizing: border-box; margin: 0; padding: 0; }
              body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0f172a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 15px; text-align: left; }
              .watermark-banner { background: #ef4444; color: white; width: 100%; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
@@ -126,26 +126,27 @@ app.get('/preview/:clientName', (req, res) => {
           </footer>
        </body>
        </html>
-    ');
+    `);
 });
+
 app.listen(PORT, () => {
     console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT}`);
 });
 
-// إعداد عميل الواتساب
+// إعداد عميل الواتساب مع تصحيح الأخطاء لتعمل بسلاسة على بيئة السيرفر
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-stuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canas',
-            '--no-zygote',
-            '--single-process',
-            '--disable-gpu',
-        ]
+       headless: true,
+       args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-zygote',
+          '--single-process',
+          '--disable-gpu',
+       ]
     }
 });
 
@@ -194,11 +195,11 @@ client.on('message', async (msg) => {
              const onboardingResponse = `✅ يا خويا يعطيك الصحة، وصل الدفع راه وصلني وفي بلاصتو! مبروك عليك راك حجزت تفعيل موقعك النهائي في Webcraft 🌟\n\nأبعث لي في رسالة وحدة هذه المعلومات باش نطلقوا موقعك الدائم على محركات البحث:\n1️⃣ **اسم المحل الرسمي:**\n2️⃣ **نشاطه والولاية:**\n3️⃣ **رقم الهاتف الرسمي للطلبات والواتساب:** 🚀`;
              await msg.reply(onboardingResponse);
              return;
-          }
-       } catch (error) {
-          console.error("⚠️ تنبيه: فشل تحميل الميديا، سيتم متابعة الرد الآلي.");
        }
+    } catch (error) {
+       console.error("⚠️ تنبيه: فشل تحميل الميديا، سيتم متابعة الرد الآلي.");
     }
+}
 
     // 2. استقبال بيانات المحل لتفعيل الموقع النهائي
     if (userText.includes('اسم المحل') || userText.includes('صيدلية') || (userText.length > 20 && (userText.includes('وهران') || userText.includes('الجزائر') || userText.includes('مستغانم')))) {
@@ -215,7 +216,7 @@ client.on('message', async (msg) => {
           console.error(`❌ فشل إرسال تنبيه البيع للمالك:`, err.message);
        }
     }
-    // 3. الرد الآلي التسويقي لإقناع العميل باللهجة المحلية
+// 3. الرد الآلي التسويقي لإقناع العميل باللهجة المحلية
     else {
        const wahraniSalesResponse = `يا خويا، راك شفت المعاينة 3D بعينك وكيفاش المحل يبان بروفيشنال! \n\nالتحكم الكامل ومحركات البحث راهم يستناو فيك، ما تخليش المنافسين يدوك الزبائن. ابعت الدفع في بريدي موب (002836536674) وابعت لي الوصل هنا باش نسلم لك موقعك النهائي فوراً! 💪🔥`;
        await msg.reply(wahraniSalesResponse);
@@ -277,4 +278,5 @@ function cleanupMemory() {
        console.log("🧹 تمت صيانة الذاكرة وتصفية السيرفر بنجاح.");
     }
 }
+
 client.initialize();
