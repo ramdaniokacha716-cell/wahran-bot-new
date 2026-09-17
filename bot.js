@@ -48,70 +48,91 @@ app.get('/', (req, res) => {
 app.get('/preview/:clientName', (req, res) => {
     const clientName = decodeURIComponent(req.params.clientName);
     res.send(`
-       <!DOCTYPE html>
-       <html lang="ar" dir="rtl">
-       <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>معاينة 3D الحصرية - ${clientName}</title>
-          <style>
-             * { box-sizing: border-box; margin: 0; padding: 0; }
-             body { font-family: 'Segoe UI', Tahoma, sans-serif; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 20px; }
-             .watermark-banner { background: #ef4444; color: white; width: 100%; text-align: center; padding: 12px; font-weight: bold; font-size: 14px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
-             .container { max-width: 850px; width: 100%; background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.7); text-align: center; }
-             h1 { color: #38bdf8; font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3); }
-             .subtitle { color: #94a3b8; font-size: 1.1rem; margin-bottom: 30px; }
-             .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; text-align: right; }
-             .card-item { background: #0f172a; border-radius: 12px; padding: 20px; border: 1px solid #334155; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transform: translateZ(20px); transition: transform 0.3s; }
-             .card-item:hover { transform: translateY(-5px); border-color: #38bdf8; }
-             .card-item h3 { color: #facc15; margin-bottom: 8px; font-size: 1.2rem; }
-             .card-item p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.5; }
-             .fake-btn { display: block; width: 100%; background: #334155; color: #94a3b8; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; cursor: not-allowed; border: none; font-size: 0.9rem; }
-             .action-box { background: rgba(15, 23, 42, 0.95); border: 2px dashed #38bdf8; padding: 25px; border-radius: 15px; margin-top: 20px; }
-             .action-box p { color: #f8fafc; font-size: 1.05rem; margin-bottom: 15px; line-height: 1.6; }
-             .btn-activate { display: inline-block; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.05rem; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); transition: transform 0.2s; }
-             .btn-activate:hover { transform: scale(1.03); }
-             footer { margin-top: 20px; color: #64748b; font-size: 0.85rem; }
-          </style>
-       </head>
-       <body>
-          <div class="watermark-banner">
-⚠️ تنبيه حماية الملكية: نسخة معاينة 3D تجريبية خاصة بمحل "${clientName}". جميع الحقوق محفوظة لوكالة Webcraft الرقمية 2026.
-          </div>
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>المتجر الرقمي 3D - ${clientName}</title>
+       <style>
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0f172a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 15px; }
+          .watermark-banner { background: #ef4444; color: white; width: 100%; text-align: center; padding: 10px; font-weight: bold; font-size: 13px; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+          .container { max-width: 800px; width: 100%; background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; }
+          h1 { color: #38bdf8; font-size: 1.8rem; margin-bottom: 8px; }
+          .subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; }
 
-          <div class="container">
-             <h1>🏪 الواجهة الرقمية 3D: ${clientName}</h1>
-             <p class="subtitle">هذه معاينة حصرية لنموذج محلك العصري المصمم خصيصاً لجذب الزبائن ومضاعفة مبيعاتك.</p>
+/* معرض الصور الحقيقي للمحل */
+          .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+          .gallery-item { position: relative; border-radius: 10px; overflow: hidden; height: 110px; border: 2px solid #334155; }
+          .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+          .gallery-label { position: absolute; bottom: 0; background: rgba(0,0,0,0.7); width: 100%; font-size: 11px; padding: 3px; color: #facc15; }
 
-             <div class="store-grid">
-                <div class="card-item">
-                    <h3>⭐ الطلب السريع والخدمة</h3>
-                    <p>واجهة متجاوبة تتيح للزبائن تصفح منتجاتكم وخدماتكم بلمسة واحدة وبأعلى احترافية.</p>
-                    <button class="fake-btn">طلب الآن (ميزة مفعمة بعد الدفع)</button>
-                </div>
-                <div class="card-item">
-                    <h3>🔥 العرض الحصري الخاص</h3>
-                    <p>قسم مخصص للعروض والخصومات لإشعال حماس الزبائن ودفعهم للشراء مباشرة.</p>
-                    <button class="fake-btn">طلب العرض (ميزة مفعمة بعد الدفع)</button>
-                </div>
+          .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; text-align: right; }
+          .card-item { background: #0f172a; border-radius: 10px; padding: 15px; border: 1px solid #334155; }
+          .card-item h3 { color: #facc15; margin-bottom: 6px; font-size: 1.1rem; }
+          .card-item p { color: #cbd5e1; font-size: 0.85rem; margin-bottom: 12px; line-height: 1.4; }
+          .action-btn { display: block; width: 100%; background: #0284c7; color: #fff; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.85rem; text-decoration: none; border: none; cursor: pointer; }
+
+          .action-box { background: rgba(15, 23, 42, 0.9); border: 2px dashed #38bdf8; padding: 20px; border-radius: 12px; margin-top: 15px; }
+          .action-box p { color: #f8fafc; font-size: 0.95rem; margin-bottom: 12px; }
+          .btn-activate { display: inline-block; background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); }
+          footer { margin-top: 15px; color: #64748b; font-size: 0.75rem; }
+       </style>
+    </head>
+    <body>
+       <div class="watermark-banner">
+⚠️ تنبيه حماية الملكية: معاينة حصرية لـ "${clientName}". جميع الحقوق محفوظة لوكالة Webcraft 2026.
+       </div>
+
+       <div class="container">
+          <h1>☕ الواجهة الرقمية الاحترافية: ${clientName}</h1>
+          <p class="subtitle">نموذج حي ومتكامل لعرض منتجاتك، صور محلك، واستقبال طلبات الزبائن بلمسة واحدة.</p>
+
+<!-- معرض صور حقيقي للمحل ومنتجاته -->
+          <div class="gallery-grid">
+             <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" alt="Coffee">
+                <div class="gallery-label">ركن المشروبات</div>
              </div>
-             
-             <div class="action-box">
-                <p>هل أعجبك تصميم محلك وتريد **تفعيله كلياً، ربطه بمحركات البحث، واستلام التحكم التام** برابطك الخاص؟</p>
-                <a href="https://wa.me/213656703988?text=${encodeURIComponent('سلام خيّر الدين، عجبني نموذج 3D الخاص بـ ' + clientName + ' ورايب نخلص 10,000 دج ونفعل موقعي النهائي!')}" class="btn-activate">
-💳 أكد الدفع (10,000 دج) واحصل على ملكية موقعك التامة الآن!
-                </a>
+             <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24" alt="Cafe Interior">
+                <div class="gallery-label">ديكور المحل 3D</div>
              </div>
-          </div>
+             <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" alt="Dishes">
+                <div class="gallery-label">الخدمات الخاصة</div>
+             </div>
+       </div>
 
-          <footer>
-             Secured Digital Experience by Webcraft Agency © 2026
-          </footer>
-       </body>
-       </html>
-    `);
+       <div class="store-grid">
+          <div class="card-item">
+             <h3>⭐ القائمة السريعة للطلبات</h3>
+             <p>تصفح المشروبات والخدمات واطلبها مباشرة عبر الواتساب بكل سهولة.</p>
+             <a href="#order" class="action-btn">تصفح القائمة</a>
+          </div>
+          <div class="card-item">
+             <h3>🔥 العروض الخاصة اليوم</h3>
+             <p>خصومات حصرية للزبائن الدائمين وزوار الواجهة الرقمية.</p>
+             <a href="#offer" class="action-btn">اكتشف العرض</a>
+          </div>
+       </div>
+
+       <div class="action-box">
+          <p>هل أعجبك هذا التصميم الحقيقي لمتجرك وتريد **تفعيله كلياً، ربطه باسم محلك، واستلام التحكم التام**؟</p>
+          <a href="https://wa.me/213656703988?text=${encodeURIComponent('سلام خيّر الدين، أعجبتني الواجهة الحقيقية بالصور لـ ' + clientName + ' وراغب في إتمام الدفع (10,000 دج) لتفعيل موقعي النهائي!')}" class="btn-activate">
+💳 أكد الدفع (10,000 دج) واحصل على موقعك النهائي الآن!
+          </a>
+       </div>
+    </div>
+
+    <footer>
+       Secured Digital Experience by Webcraft Agency © 2026
+    </footer>
+</body>
+</html>
+    ');
 });
-
 app.listen(PORT, () => {
     console.log(`🌐 خادم الويب يعمل على المنفذ ${PORT}`);
 });
