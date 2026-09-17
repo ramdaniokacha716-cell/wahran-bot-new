@@ -210,10 +210,7 @@ client.on('message', async (msg) => {
 🌐 **رابط موقعك التجريـبي 3D:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
 🔑 **لوحة التحكم الخاصة بك:** https://wahran-agency-bot-production.up.railway.app/preview/${encodeURIComponent(storeNameMatch)}
 
-هنيئاً لك، راك اليوم سبقت قاع منافسيك في ولايتك! تتهنى به وربي يبارك لك في رزقك 💼✨`;
-
-       await msg.reply(wahraniSalesResponse);
-
+هنيئاً لك، راك اليوم سبقت قاع منافسيك في ولايتك! تتهنى به وربي يبارك لك في رزقك 💼✨`
        // إشعار المالك بالعملية الناجحة
        const ownerPhoneNumber = "213656703988@c.us";
        const ownerNotificationMessage = `🚨 **عملية بيع ناجحة 100% - Webcraft!** 💰\n🏪 المحل: ${storeNameMatch}\n💵 المبلغ: 10,000 دج\n📱 رقم العميل: ${msg.from}`;
