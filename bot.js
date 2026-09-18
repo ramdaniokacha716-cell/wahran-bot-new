@@ -429,20 +429,28 @@ async function startWebcraftCampaign() {
 
     console.log(`🚀 انطلاق الحملة الكبرى ليوم ${activeDayTargets.dayName}: إرسال الروابط لـ (${validTargets.length}) عميلاً مستهدفاً.`);
 
-    for (const lead of validTargets) {
-       try {
-          const message = getHighConversionMessage(lead.name, lead.wilaya || "وهران");
-          const chatId = lead.phone.replace(/[^0-9]/g, '') + '@c.us';
+for (const lead of validTargets) {
+    try {
+       const message = getHighConversionMessage(lead.name, lead.wilaya || "وهران");
+       const cleanNumber = lead.phone.replace(/[^\d]/g, '');
+// البحث عن معرف الـ WhatsApp الصحيح للرقم لتجنب مشكلة No LID
+       const contactId = await client.getNumberId(cleanNumber);
 
-          await client.sendMessage(chatId, message);
-          console.log(`✅ تم إرسال العرض بنجاح إلى: ${lead.name} (${lead.phone}) - ولاية: ${lead.wilaya}`);
-
-          const randomDelay = Math.floor(Math.random() * (45000 - 25000 + 1)) + 25000;
-          await new Promise(resolve => setTimeout(resolve, randomDelay));
-       } catch (error) {
-          console.error(`❌ فشل الإرسال إلى ${lead.name}:`, error.message);
+       if (!contactId) {
+          console.log(`⚠️ الرقم غير مسجل على واتساب: ${lead.name} (${lead.phone})`);
+          continue; // الانتقال للعميل الموالي مباشرة دون توقف الحملة
        }
+
+       await client.sendMessage(contactId._serialized, message);
+       console.log(`✅ تم إرسال العرض بنجاح إلى: ${lead.name} (${lead.phone}) - ولاية ${lead.wilaya}`);
+
+       const randomDelay = Math.floor(Math.random() * (45000 - 25000 + 1)) + 25000;
+       await new Promise(resolve => setTimeout(resolve, randomDelay));
+
+    } catch (error) {
+       console.error(`❌ فشل الإرسال إلى ${lead.name}:`, error.message);
     }
+}
     console.log("🏁 انتهت حملة إرسال الروابط للـ 200 عميل بنجاح تام، والبوت في حالة جاهزية تامة للرد على المراسلات وبيع الخدمات!");
 }
 
