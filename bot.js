@@ -8,8 +8,8 @@ const activeDayTargets = {
     category: "فنادق ومراقد سياحية كبرى",
     targets: [
        // --- 100 فندق حقيقي في الجزائر ---
-       { name: "Hotel El Aurassi", phone: "+21321748252", wilaya: "الجزائر" },
-       { name: "Hotel Sheraton Club des Pins", phone: "+21321377777", wilaya: "الجزائر" },
+       { name: "Hotel Restaurant EL KAHINA", phone: "+213549458501", wilaya: "الجزائر" },
+       { name: "HÔTEL_EL MARSSEMفندق المرسم", phone: "+213798412024", wilaya: "الجزائر" },
        { name: "Hotel Sofitel Algiers", phone: "+21321685285", wilaya: "الجزائر" },
        { name: "Hotel El Djazair", phone: "+21321690000", wilaya: "الجزائر" },
        { name: "Hotel Marriott Constantine", phone: "+21331925000", wilaya: "قسنطينة" },
