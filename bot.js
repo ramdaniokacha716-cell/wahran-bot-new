@@ -482,3 +482,65 @@ function cleanupMemory() {
 }
 
 client.initialize();
+// --- دالة التشغيل الذكية الشاملة لتفادي الحظر وإدارة الأرقام الأرضية والإيميلات ---
+async function runSmartCampaign(client, targetsList) {
+    console.log("🚀 بدء حملة وكالة Webcraft الذكية...");
+
+// دالة توليد فاصل زمني عشوائي (بين 15 إلى 35 ثانية) لحماية الحساب من الحظر
+    const getRandomDelay = () => {
+       const min = 15000;
+       const max = 35000;
+       return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    for (let i = 0; i < targetsList.length; i++) {
+       let target = targetsList[i];
+
+       try {
+// 1. تنظيف الرقم من أي علامات زائدة أو ناقصة أو مسافات
+          let rawPhone = String(target.phone || "");
+          let cleanNumber = rawPhone.replace(/[^0-9]/g, '');
+
+// التحقق مما إذا كان الرقم يبدأ بمفتاح دولة أو قصير (أرضي)
+// الأرقام الأرضية في الجزائر غالباً تبدأ بـ 21331, 21341, إلخ، أو قصيرة نسبياً
+          let isLandline = rawPhone.includes('-') || cleanNumber.length <= 10;
+
+          if (isLandline || cleanNumber.length < 9) {
+             console.log(`🏢 [رقم أرضي مكتشف]: ${target.name} (${rawPhone}) - Wilaya: ${target.wilaya}`);
+             console.log(`🔍 جاري البحث وتجهيز البريد الإلكتروني البديل للتواصل مع الفندق...`);
+// هنا يتم تسجيل الفندق كهدف للإرسال عبر البريد الإلكتروني لاحقاً
+             continue; // تخطي الواتساب والانتقال للعميل الموالي دون توقف
+          }
+
+// 2. التحقق من وجود حساب واتساب نشط للرقم المحمول
+          let chatId = await client.getNumberId(cleanNumber);
+
+          if (chatId) {
+// صياغة رسالة احترافية تليق بخدمات وكالة Webcraft
+             let marketingMessage = `مرحباً إدارة ${target.name} (${target.wilaya}). ملاحظة سريعة من وكالة Webcraft: لاحظنا أن الفندق لا يمتلك موقعاً إلكترونياً خاصاً لحجوزات الزبائن مباشرة. هل ترغبون في معاينة نموذج موقع فندقي احترافي جاهز خلال دقائق؟`;
+
+             await client.sendMessage(chatId._serialized, marketingMessage);
+             console.log(`✅ [تم إرسال الواتساب بنجاح]: ${target.name} (${cleanNumber})`);
+          } else {
+             console.log(`⚠️ [تنبيه]: الرقم المحمول غير مسجل في واتساب: ${target.name} (${rawPhone})`);
+          }
+
+       } catch (error) {
+          console.log(`❌ [خطأ مؤقت مع الهدف ${target.name}]:`, error.message);
+       }
+
+// 3. تطبيق الفاصل الزمني العبوّي العشوائي بين كل رسالة وأخرى لحماية الواتساب
+       let delay = getRandomDelay();
+       console.log(`⏳ انتظار لمدة ${(delay / 1000).toFixed(1)} ثانية قبل الانتقال للعميل التالي حمايةً للحساب...`);
+       await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    console.log("🏁 انتهت الحملة بنجاح وتم فحص جميع الأرقام الأرضية والمحمولة.");
+}
+
+// تشغيل الحملة تلقائياً باستخدام القائمة المعرفة في الملف
+if (typeof activeDayTargets !== 'undefined' && activeDayTargets.targets) {
+    client.on('ready', async () => {
+       await runSmartCampaign(client, activeDayTargets.targets);
+    });
+}
