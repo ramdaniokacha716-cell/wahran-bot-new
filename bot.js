@@ -544,3 +544,59 @@ if (typeof activeDayTargets !== 'undefined' && activeDayTargets.targets) {
        await runSmartCampaign(client, activeDayTargets.targets);
     });
 }
+// --- مكتبات وإضافات استخراج الإيميل والإرسال التلقائي كبديل للواتساب ---
+const nodemailer = require('nodemailer');
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+// دالة البحث عن الإيميل من موقع الفندق الإلكتروني
+async function extractEmailFromWebsite(websiteUrl) {
+    if (!websiteUrl) return null;
+    try {
+       const { data } = await axios.get(websiteUrl, { timeout: 5000 });
+       const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+       const foundEmails = data.match(emailRegex);
+
+       if (foundEmails && foundEmails.length > 0) {
+           return foundEmails[0]; // إرجاع أول بريد يتم رصده
+       }
+       return null;
+    } catch (error) {
+       console.log(`تعذر الوصول لموقع الويب لسحب الإيميل: ${websiteUrl}`);
+       return null;
+    }
+}
+
+// دالة إرسال الإيميل التلقائي للعميل الذي يمتلك رقماً أرضياً أو غير مسجل
+async function sendFallbackEmail(toEmail, hotelName, previewUrl) {
+    try {
+       let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+             user: process.env.EMAIL_USER,
+             pass: process.env.EMAIL_PASS
+          }
+       });
+
+       let mailOptions = {
+          from: '"Webcraft Agency" <contact@webcraft.com>',
+          to: toEmail,
+          subject: `عرض خاص وتصميم مبدئي لموقع ${hotelName}`,
+          html: `
+             <div style="font-family: Arial, sans-serif; direction: rtl; text-align: right; padding: 20px; background-color: #f4f4f4;">
+                <h2 style="color: #333;">مرحباً إدارة فندق ${hotelName}،</h2>
+                <p>لقد لاحظنا أن فندقكم المميز لا يمتلك موقعاً إلكترونياً رسمياً، وقمنا بتحضير نموذج موقع تفاعلي جاهز لتعزيز حجوزاتكم.</p>
+                <p>يمكنكم معاينة التصميم واختباره بالكامل عبر الرابط التالي:</p>
+                <a href="${previewUrl}" style="display: inline-block; padding: 12px 24px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px;">معاينة الموقع وتفعيله الآن</a>
+                <br><br>
+                <p>مع خالص التحيات،<br><strong>فريق وكالة Webcraft</strong></p>
+             </div>
+          `
+       };
+
+       await transporter.sendMail(mailOptions);
+       console.log(`📧 [تم إرسال الإيميل بنجاح]: إلى ${toEmail} (${hotelName})`);
+    } catch (err) {
+       console.log(`❌ فشل إرسال الإيميل للفندق ${hotelName}:`, err.message);
+    }
+}
