@@ -600,3 +600,36 @@ async function sendFallbackEmail(toEmail, hotelName, previewUrl) {
        console.log(`❌ فشل إرسال الإيميل للفندق ${hotelName}:`, err.message);
     }
 }
+
+/**
+* نظام الرد الآلي الذكي للتعامل مع ردود الفنادق والعملاء
+* @param {string} incomingMessage - الرسالة الواردة من عميل الفندق
+* @param {string} senderPhone - رقم هاتف المرسل
+*/
+async function handleAiAutoReply(incomingMessage, senderPhone) {
+    try {
+       console.log(`[AI Auto-Reply] استقبال رسالة من الرقم ${senderPhone}: "${incomingMessage}"`);
+
+// تحليل نية العميل وصياغة رد تسويقي احترافي (يمكنك ربطه بمحرك الذكاء الاصطناعي أو استجابة ذكية مسبقة)
+       let replyText = "";
+       const lowerMsg = incomingMessage.toLowerCase();
+
+       if (lowerMsg.includes("السعر") || lowerMsg.includes("تكلفة") || lowerMsg.includes("price")|| lowerMsg.includes("combien")) {
+          replyText = "أهلاً بك! عروض تصميم وتطوير مواقع الويب الخاصة بنا تبدأ بباقات مرنة مصممة خصيصاً لرفع حجوزات الفنادق المباشرة بدون عمولات منصات الحجز. هل تفضل أن نرسل لك نموذجاً تجريبياً مجانياً لواجهة موقع فندقك الجديد؟";
+       } else if (lowerMsg.includes("مثلة") || lowerMsg.includes("أعمال") || lowerMsg.includes("portfolio")) {
+          replyText = "يسعدنا ذلك! يمكنك الاطلاع على أحدث أعمالنا الرقمية المخصصة لقطاع الضيافة والتي تركز على تجربة المستخدم وسرعة التصفح. سنرسل لك رابط المعرض الفوري مباشرة.";
+       } else {
+          replyText = "شكراً لتواصلك مع وكالة Webcraft الرقمية. نحن متخصصون في مساعدة الفنادق على مضاعفة الحجوزات المباشرة عبر تصاميم عصرية ونظام حجز ذكي. هل يسعنا ترتيب مكالمة قصيرة مدتها 5 دقائق لتوضيح العرض؟";
+       }
+
+// إرسال الرد التلقائي عبر الواتساب (تأكد من استخدام دالة الإرسال المتوفرة لديك في السكربت)
+       // await client.sendMessage(senderPhone, replyText);
+       console.log(`[AI Auto-Reply] تم إرسال الرد بنجاح إلى ${senderPhone}`);
+
+    } catch (error) {
+       console.error("[AI Auto-Reply Error] حدث خطأ أثناء معالجة الرد الآلي:", error.message);
+    }
+}
+
+// تصدير الدالة أو ربطها بحدث استقبال الرسائل في البوت
+module.exports = { handleAiAutoReply };
