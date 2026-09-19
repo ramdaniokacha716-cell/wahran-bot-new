@@ -570,6 +570,10 @@ async function extractEmailFromWebsite(websiteUrl) {
 // دالة إرسال الإيميل التلقائي للعميل الذي يمتلك رقماً أرضياً أو غير مسجل
 async function sendFallbackEmail(toEmail, hotelName, previewUrl) {
     try {
+        // توليد رابط تتبع مخصص لكل فندق بناءً على اسمه
+       const trackingUrl = `https://webcraft-agency.com/preview?hotel=${encodeURIComponent(hotelName)}&utm_source=email&utm_medium=fallback_bot`;
+
+
        let transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -587,7 +591,7 @@ async function sendFallbackEmail(toEmail, hotelName, previewUrl) {
                 <h2 style="color: #333;">مرحباً إدارة فندق ${hotelName}،</h2>
                 <p>لقد لاحظنا أن فندقكم المميز لا يمتلك موقعاً إلكترونياً رسمياً، وقمنا بتحضير نموذج موقع تفاعلي جاهز لتعزيز حجوزاتكم.</p>
                 <p>يمكنكم معاينة التصميم واختباره بالكامل عبر الرابط التالي:</p>
-                <a href="${previewUrl}" style="display: inline-block; padding: 12px 24px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px;">معاينة الموقع وتفعيله الآن</a>
+                <a href="${trackingUrl}" style="display: inline-block; padding: 12px 24px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">معاينة النموذج والتصميم</a>
                 <br><br>
                 <p>مع خالص التحيات،<br><strong>فريق وكالة Webcraft</strong></p>
              </div>
